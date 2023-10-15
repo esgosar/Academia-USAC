@@ -157,7 +157,6 @@ def build_main_view():
     # Rebuild main view (This should replicate your main view widgets)
     main_view()  # Define this function to contain your main view code
 
-
 # Configuración de la ventana principal
 ventana = Tk()
 ventana.title("Facultad de Ingenieria")
