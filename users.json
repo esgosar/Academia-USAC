@@ -1,0 +1,41 @@
+[
+    {
+        "soyunalumno": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/15/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "1234",
+            "tipo": "alumn",
+            "confirm": "true"
+        }
+    },
+    {
+        "soyuncatedra": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/15/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "1234",
+            "tipo": "cat",
+            "confirm": "true"
+        }
+    },
+    {
+        "soyeladmin": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/15/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "1234",
+            "tipo": "admin",
+            "confirm": "true"
+        }
+    }
+]
