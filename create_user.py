@@ -12,7 +12,7 @@ def CreateAlumnDict(username, nombre, apellido, fecha_nacimiento, telefono, dpi,
             "email": email,
             "password": password, #if change, change on inicar_sesion()
             "tipo": "alumn",
-            "confirm": "true"
+            "confirm": "false" #la cuenta se crea pero esta bloqueada por defecto
         }
     }
 
@@ -27,7 +27,7 @@ def CreateCatdrDict(username, nombre, apellido, dpi, password):
             "email": "-",
             "password": password, #if change, change on inicar_sesion()
             "tipo": "cat",
-            "confirm": "true"
+            "confirm": "false" #la cuenta se crea pero esta bloqueada por defecto
         }
     }
 

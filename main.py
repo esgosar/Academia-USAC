@@ -7,6 +7,9 @@ import json
 # Crear una lista vacía para almacenar los widgets de tipo Entry
 entry_widgets = []
 
+def debugger():
+    print("Yep!")
+
 def new_alumn():
     # Obtener los valores ingresados en los campos de texto
     entry_values = [entry.get() for entry in entry_widgets]
@@ -55,6 +58,27 @@ def iniciar_sesion():
                 vista_catedra()
             elif item[user]['tipo'] == "admin":
                 vista_admin()
+
+def recuperar_pass():
+    # Obtener datos del usuario y contraseña
+    user = email_to_search.get()
+    isUser = False
+
+    # Leer el archivo JSON que contiene la información de los usuarios
+    with open('./users.json', 'r') as f:
+        data = json.load(f)
+        for item in data:
+            if user in item:
+                isUser = True
+    
+        # Manejo de errores para usuario y contraseña
+        if not isUser:
+            user_existn.pack()
+        else:
+            user_existn.pack_forget()
+            #wait_view()
+            build_main_view()
+
 
 def vista_alumno():
     global entry_widgets
@@ -160,6 +184,10 @@ def main_view():
     iniciar_sesion_button = Button(ventana, text="Iniciar Sesión", font=("Helvetica", 16), command=iniciar_sesion)
     iniciar_sesion_button.place(relx=0.5, rely=0.7, anchor='center')
 
+    link = Label(ventana, text="Recuperar Contraseña o...", fg="white", font=("Helvetica", 16), cursor="hand2")
+    link.place(relx=0.5, rely=0.75, anchor='center')
+    link.bind("<Button-1>", lambda e: vista_recuperacion())
+
     registrar_button = Button(ventana, text="Registrarse", font=("Helvetica", 16), command=abrir_registro)
     registrar_button.place(relx=0.5, rely=0.8, anchor='center')
 
@@ -181,6 +209,40 @@ def build_main_view():
 
     # Reconstruir la vista principal (Esta función debería replicar los widgets de tu vista principal)
     main_view()  # Define esta función para contener el código de tu vista principal
+
+def vista_recuperacion():
+    global entry_widgets
+    global titulo_catedra, registrar_button, sign_out_button, label, email_to_search, user_existn
+
+    entry_widgets = []  # Limpiar las entradas anteriores si las hay
+
+    # Eliminar los widgets actuales
+    for widget in ventana.winfo_children():
+        widget.destroy()
+
+    # Nueva etiqueta de título
+    titulo_catedra = Label(ventana, text="Recuperación de Contraseña", font=("Helvetica", 30, "bold"))
+    titulo_catedra.place(relx=0.5, rely=0.1, anchor='center')
+
+    label = Label(ventana, text="Usuario", font=("Helvetica", 16))
+    label.place(relx=0.5, rely=0.4, anchor='center')
+    email_to_search = Entry(ventana, font=("Helvetica", 16))
+    email_to_search.place(relx=0.5, rely=0.5, anchor='center')
+
+    # Botón de registro para el nuevo formulario
+    registro_button = Button(ventana, text="Recuperar", font=("Helvetica", 16), command=recuperar_pass)
+    registro_button.place(relx=0.6, rely=0.95, anchor='center')
+
+    # Botón para cancelar y volver atrás
+    sign_out_button = Button(ventana, text="Cancelar", font=("Helvetica", 16), command=build_main_view)
+    sign_out_button.place(relx=0.4, rely=0.95, anchor='center')
+
+    #Etiquetas de error para usuario
+    user_existn = Label(ventana, text="Usuario no registrado", font=("Helvetica", 12), fg="red")
+    user_existn.place(relx=0.5, rely=0.75, anchor='center')
+
+    # Inicialmente, ocultar las etiquetas de error
+    user_existn.place_forget()
 
 # Configuración de la ventana principal
 ventana = Tk()  # Crea una nueva ventana usando Tkinter
