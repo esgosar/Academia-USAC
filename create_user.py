@@ -1,7 +1,7 @@
 import json
 
 # Function to create a user dictionary
-def CreateUserDict(username, nombre, apellido, fecha_nacimiento, telefono, dpi, email, password, user_type, confirmacion):
+def CreateAlumnDict(username, nombre, apellido, fecha_nacimiento, telefono, dpi, email, password, user_type, confirmacion):
     return {
         username: {
             "nombre": nombre,
@@ -10,8 +10,23 @@ def CreateUserDict(username, nombre, apellido, fecha_nacimiento, telefono, dpi, 
             "telf": telefono,
             "dpi": dpi,
             "email": email,
-            "password": password,
-            "tipo": user_type,
+            "password": password, #if change, change on inicar_sesion()
+            "tipo": "alumn",
+            "confirm": "true"
+        }
+    }
+
+def CreateCatdrDict(username, nombre, apellido, dpi, password):
+    return {
+        username: {
+            "nombre": nombre,
+            "apellido": apellido,
+            "fecha": "-",
+            "telf": "-",
+            "dpi": dpi,
+            "email": "-",
+            "password": password, #if change, change on inicar_sesion()
+            "tipo": "cat",
             "confirm": "true"
         }
     }
