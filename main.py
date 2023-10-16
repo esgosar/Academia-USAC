@@ -1,31 +1,34 @@
 from tkinter import *
-from tkinter import ttk  # for the Checkbutton
+from tkinter import ttk  # para el Checkbutton
 from tkcalendar import DateEntry
-from create_user import CreateUserDict, JSONBuilder
+from create_user import CreateAlumnDict, CreateCatdrDict, JSONBuilder
 import json
 
-# Create an empty list to store the Entry widgets
+# Crear una lista vacía para almacenar los widgets de tipo Entry
 entry_widgets = []
 
 def new_alumn():
+    # Obtener los valores ingresados en los campos de texto
     entry_values = [entry.get() for entry in entry_widgets]
-    entry_values.append(tipo.alumn) #default
-    entry_values.append("true") #condicional, verficar.
-    user = CreateUserDict(*entry_values)
-    #Store it
+    user = CreateAlumnDict(*entry_values)
+    # Almacenar el usuario
     JSONBuilder(user)
 
-class tipo:
-    alumn = "alumn"
-    admin = "admin"
-    catdr = "cat"
+def new_cat():
+    # Obtener los valores ingresados en los cmapos de texto
+    entry_values = [entry.get() for entry in entry_widgets]
+    user = CreateCatdrDict(*entry_values)
+    # Almacenar el usuario
+    JSONBuilder(user)
 
 def iniciar_sesion():
+    # Obtener datos del usuario y contraseña
     user = usuario_entry.get()
     contrasena = contrasena_entry.get()
     isUser = False
     isPass = False
 
+    # Leer el archivo JSON que contiene la información de los usuarios
     with open('./users.json', 'r') as f:
         data = json.load(f)
         for item in data:
@@ -34,56 +37,86 @@ def iniciar_sesion():
                 if item[user]['password'] == contrasena:
                     isPass = True
                     break
-    
-        # Manejo de errores
+
+        # Manejo de errores para usuario y contraseña
         if not isUser:
             user_existn.pack()
         else:
             user_existn.pack_forget()
+            if not isPass:
+                pass_existn.pack()
+            else:
+                pass_existn.pack_forget()
 
-        if not isPass:
-            pass_existn.pack()
-        else:
-            pass_existn.pack_forget()
-            # View fork
-            if item[user]['tipo'] == tipo.alumn:
+            # Redireccionar la vista según el tipo de usuario
+            if item[user]['tipo'] == "alumn":
                 vista_alumno()
-            elif item[user]['tipo'] == tipo.catdr:
+            elif item[user]['tipo'] == "cat":
                 vista_catedra()
-            elif item[user]['tipo'] == tipo.admin:
+            elif item[user]['tipo'] == "admin":
                 vista_admin()
 
 def vista_alumno():
     global entry_widgets
     global titulo_alumno, sign_out_button
 
-    entry_widgets = []  # Clear the previous entries if any
+    entry_widgets = []  # Limpiar las entradas anteriores si las hay
 
-    # Destroy current widgets if any (be careful with this approach)
+    # Eliminar los widgets actuales
     for widget in ventana.winfo_children():
         widget.destroy()
 
-    # New Title
+    # Nueva etiqueta de título
     titulo_alumno = Label(ventana, text="Alumno", font=("Helvetica", 40, "bold"))
     titulo_alumno.place(relx=0.5, rely=0.1, anchor='center')
 
-    # Cerrar Sesión
+    # Botón para cerrar sesión
     sign_out_button = Button(ventana, text="Cerrar Sesión", font=("Helvetica", 16), command=build_main_view)
     sign_out_button.place(relx=0.5, rely=0.9, anchor='center')
 
-def abrir_registro():
-    global entry_widgets  # Declare as global to modify it
-    entry_widgets = []  # Clear the previous entries if any
+def vista_admin():
+    global entry_widgets
+    global titulo_catedra, sign_out_button
 
-    # Destroy current widgets if any (be careful with this approach)
+    entry_widgets = []  # Limpiar las entradas anteriores si las hay
+
+    # Eliminar los widgets actuales
     for widget in ventana.winfo_children():
         widget.destroy()
 
-    # New Title
+    # Nueva etiqueta de título
+    titulo_catedra = Label(ventana, text="Admin", font=("Helvetica", 40, "bold"))
+    titulo_catedra.place(relx=0.5, rely=0.1, anchor='center')
+
+        # Nuevos campos de formulario
+    campos = ["Usuario", "Nombre", "Apellido", "DPI", "Contraseña"]
+    for index, campo in enumerate(campos):
+        Label(ventana, text=campo, font=("Helvetica", 16)).place(relx=0.35, rely=0.2 + index*0.1, anchor='center')
+        entry = Entry(ventana, font=("Helvetica", 16))
+        entry.place(relx=0.65, rely=0.2 + index*0.1, anchor='center')
+        entry_widgets.append(entry)  # Agregar a la lista
+
+    # Botón de registro para el nuevo formulario
+    registro_button = Button(ventana, text="Registrar", font=("Helvetica", 16), command=new_cat)
+    registro_button.place(relx=0.6, rely=0.95, anchor='center')
+
+    # Botón para cancelar y volver atrás
+    sign_out_button = Button(ventana, text="Cancelar", font=("Helvetica", 16), command=build_main_view)
+    sign_out_button.place(relx=0.4, rely=0.95, anchor='center')
+
+def abrir_registro():
+    global entry_widgets  # Declarar como global para modificarla
+    entry_widgets = []  # Limpiar las entradas anteriores si las hay
+
+    # Eliminar los widgets actuales (tener cuidado con este enfoque)
+    for widget in ventana.winfo_children():
+        widget.destroy()
+
+    # Nuevo título para la página de registro
     titulo_registro = Label(ventana, text="Página de Registro", font=("Helvetica", 40, "bold"))
     titulo_registro.place(relx=0.5, rely=0.1, anchor='center')
 
-    # New Form Fields
+    # Nuevos campos de formulario
     campos = ["Usuario","Nombre", "Apellido", "Fecha de Nacimiento", "Teléfono", "DPI", "Email", "Contraseña"]
     for index, campo in enumerate(campos):
         Label(ventana, text=campo, font=("Helvetica", 16)).place(relx=0.35, rely=0.2 + index*0.1, anchor='center')
@@ -91,15 +124,15 @@ def abrir_registro():
             entry = DateEntry(ventana, width=16, background="magenta3", foreground="white", bd=2)
         else:
             entry = Entry(ventana, font=("Helvetica", 16))
-                
+
         entry.place(relx=0.65, rely=0.2 + index*0.1, anchor='center')
-        entry_widgets.append(entry)  # Append to the list
+        entry_widgets.append(entry)  # Agregar a la lista
 
-    # Register button for the new form
+    # Botón de registro para el nuevo formulario
     registro_button = Button(ventana, text="Registrar", font=("Helvetica", 16), command=new_alumn)
-    registro_button.place(relx=0.5, rely=0.95, anchor='center')
+    registro_button.place(relx=0.6, rely=0.95, anchor='center')
 
-    # Volver atrás
+    # Botón para cancelar y volver atrás
     sign_out_button = Button(ventana, text="Cancelar", font=("Helvetica", 16), command=build_main_view)
     sign_out_button.place(relx=0.4, rely=0.95, anchor='center')
     
@@ -107,53 +140,55 @@ def main_view():
     global titulo, usuario_label, usuario_entry, contrasena_label, contrasena_entry
     global iniciar_sesion_button, registrar_button, user_existn, pass_existn
 
-    # Título
-    font_style = ("Helvetica", 12)
+    # Título de la página principal
     titulo = Label(ventana, text="Facultad de Ingeniería", font=("Helvetica", 40, "bold"))
     titulo.place(relx=0.5, rely=0.2, anchor='center')
 
-    # Usuario
+    # Etiqueta y entrada para el usuario
     usuario_label = Label(ventana, text="Usuario:", font=("Helvetica", 16))
     usuario_label.place(relx=0.5, rely=0.4, anchor='center')
     usuario_entry = Entry(ventana, font=("Helvetica", 16))
     usuario_entry.place(relx=0.5, rely=0.45, anchor='center')
 
-    # Contraseña
+    # Etiqueta y entrada para la contraseña
     contrasena_label = Label(ventana, text="Contraseña:", font=("Helvetica", 16))
     contrasena_label.place(relx=0.5, rely=0.55, anchor='center')
     contrasena_entry = Entry(ventana, show="*", font=("Helvetica", 16))
     contrasena_entry.place(relx=0.5, rely=0.6, anchor='center')
 
-    # Botones
+    # Botones para iniciar sesión y registrarse
     iniciar_sesion_button = Button(ventana, text="Iniciar Sesión", font=("Helvetica", 16), command=iniciar_sesion)
     iniciar_sesion_button.place(relx=0.5, rely=0.7, anchor='center')
 
     registrar_button = Button(ventana, text="Registrarse", font=("Helvetica", 16), command=abrir_registro)
     registrar_button.place(relx=0.5, rely=0.8, anchor='center')
 
-    user_existn = Label(ventana, text="Usuario no registrado", font=font_style, fg="red")
+    # Etiquetas de error para usuario y contraseña
+    user_existn = Label(ventana, text="Usuario no registrado", font=("Helvetica", 12), fg="red")
     user_existn.place(relx=0.5, rely=0.75, anchor='center')
 
-    pass_existn = Label(ventana, text="Contraseña incorrecta", font=font_style, fg="red")
+    pass_existn = Label(ventana, text="Contraseña incorrecta", font=("Helvetica", 12), fg="red")
     pass_existn.place(relx=0.5, rely=0.8, anchor='center')
 
-    # Initially, hide them
+    # Inicialmente, ocultar las etiquetas de error
     user_existn.place_forget()
     pass_existn.place_forget()
 
 def build_main_view():
-    # Destroy current widgets if any (be careful with this approach)
+    # Destruir los widgets actuales si los hay (tener cuidado con este enfoque)
     for widget in ventana.winfo_children():
         widget.destroy()
 
-    # Rebuild main view (This should replicate your main view widgets)
-    main_view()  # Define this function to contain your main view code
+    # Reconstruir la vista principal (Esta función debería replicar los widgets de tu vista principal)
+    main_view()  # Define esta función para contener el código de tu vista principal
 
 # Configuración de la ventana principal
-ventana = Tk()
-ventana.title("Facultad de Ingenieria")
-ventana.attributes('-fullscreen', True)
+ventana = Tk()  # Crea una nueva ventana usando Tkinter
+ventana.title("Academia USAC")  # Establece el título de la ventana
+ventana.attributes('-fullscreen', True)  # Configura la ventana para que se abra en pantalla completa
 
-main_view()
+# Construcción de la vista principal
+main_view()  # Llama a la función que construye la vista principal
+
 # Ejecutar la aplicación
-ventana.mainloop()
+ventana.mainloop()  # Inicia el bucle principal de la aplicación Tkinter
