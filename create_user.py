@@ -1,7 +1,7 @@
 import json
 
 # Function to create a user dictionary
-def CreateAlumnDict(username, nombre, apellido, fecha_nacimiento, telefono, dpi, email, password, user_type, confirmacion):
+def CreateAlumnDict(username, nombre, apellido, fecha_nacimiento, telefono, dpi, email, password):
     return {
         username: {
             "nombre": nombre,

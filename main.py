@@ -3,6 +3,7 @@ from tkinter import ttk  # para el Checkbutton
 from tkcalendar import DateEntry
 from create_user import CreateAlumnDict, CreateCatdrDict, JSONBuilder
 from dboperations import UserStatus
+from security import CheckSecurity
 import json
 
 # Crear una lista vacía para almacenar los widgets de tipo Entry
@@ -11,13 +12,61 @@ entry_widgets = []
 # Create a mutable list to hold the count
 count = [0]
 
-
 def new_alumn():
-    # Obtener los valores ingresados en los campos de texto
-    entry_values = [entry.get() for entry in entry_widgets]
-    user = CreateAlumnDict(*entry_values)
-    # Almacenar el usuario
-    JSONBuilder(user)
+    password = entry_widgets[7].get()
+    user = entry_widgets[0].get()
+    isUserOkay = True
+    isPassOkay = False
+
+    # Leer el archivo JSON que contiene la información de los usuarios
+    with open('./users.json', 'r') as f:
+        data = json.load(f)
+        for item in data:
+            if user in item:
+                isUserOkay = False
+
+    if isUserOkay == False:
+        error_e.pack()
+        error_a.pack_forget()
+        error_b.pack_forget()
+        error_c.pack_forget()
+        error_d.pack_forget()
+    elif CheckSecurity(password) == 1:
+        error_a.pack()
+        error_b.pack_forget()
+        error_c.pack_forget()
+        error_d.pack_forget()
+    elif CheckSecurity(password) == 2:
+        error_b.pack()
+        error_a.pack_forget()
+        error_c.pack_forget()
+        error_d.pack_forget()
+    elif CheckSecurity(password) == 3:
+        error_c.pack()
+        error_a.pack_forget()
+        error_b.pack_forget()
+        error_d.pack_forget()
+    elif CheckSecurity(password) == 4:
+        error_d.pack()
+        error_a.pack_forget()
+        error_b.pack_forget()
+        error_c.pack_forget()
+    elif CheckSecurity(password) == 5:
+        error_a.pack_forget()
+        error_b.pack_forget()
+        error_c.pack_forget()
+        error_d.pack_forget()
+        isPassOkay = True
+    
+    if isUserOkay & isPassOkay:
+        error_a.pack_forget()
+        error_b.pack_forget()
+        error_c.pack_forget()
+        error_d.pack_forget()
+        error_e.pack_forget()
+        entry_values = [entry.get() for entry in entry_widgets]
+        user_data = CreateAlumnDict(*entry_values)
+        JSONBuilder(user_data)
 
 def new_cat():
     # Obtener los valores ingresados en los cmapos de texto
@@ -142,7 +191,7 @@ def vista_admin():
     sign_out_button.place(relx=0.4, rely=0.95, anchor='center')
 
 def abrir_registro():
-    global entry_widgets  # Declarar como global para modificarla
+    global entry_widgets, error_a, error_b, error_c, error_d, error_e # Declarar como global para modificarla
     entry_widgets = []  # Limpiar las entradas anteriores si las hay
 
     # Eliminar los widgets actuales (tener cuidado con este enfoque)
@@ -172,6 +221,28 @@ def abrir_registro():
     # Botón para cancelar y volver atrás
     sign_out_button = Button(ventana, text="Cancelar", font=("Helvetica", 16), command=build_main_view)
     sign_out_button.place(relx=0.4, rely=0.95, anchor='center')
+
+    # Interface error feedback
+    error_a = Label(ventana, text="La contraseña debe tener al menos 8 caracteres", font=("Helvetica", 12), fg="red")
+    error_a.place(relx=0.5, rely=0.8, anchor='center')
+
+    error_b = Label(ventana, text="La contraseña debe tener al menos una letra mayúscula", font=("Helvetica", 12), fg="red")
+    error_b.place(relx=0.5, rely=0.8, anchor='center')
+
+    error_c = Label(ventana, text="La contraseña debe tener al menos un dígito", font=("Helvetica", 12), fg="red")
+    error_c.place(relx=0.5, rely=0.8, anchor='center')
+
+    error_d = Label(ventana, text="La contraseña debe tener al menos un símbolo", font=("Helvetica", 12), fg="red")
+    error_d.place(relx=0.5, rely=0.8, anchor='center')
+
+    error_e = Label(ventana, text="El usuario ya está registrado", font=("Helvetica", 12), fg="red")
+    error_e.place(relx=0.5, rely=0.8, anchor='center')
+
+    error_a.place_forget()
+    error_b.place_forget()
+    error_c.place_forget()
+    error_d.place_forget()
+    error_e.place_forget()
     
 def main_view():
     global titulo, usuario_label, usuario_entry, contrasena_label, contrasena_entry
@@ -208,6 +279,8 @@ def main_view():
     user_existn = Label(ventana, text="Usuario no registrado", font=("Helvetica", 12), fg="red")
     user_existn.place(relx=0.5, rely=0.75, anchor='center')
 
+    # Error feedback
+    
     pass_existn = Label(ventana, text="Contraseña incorrecta", font=("Helvetica", 12), fg="red")
     pass_existn.place(relx=0.5, rely=0.8, anchor='center')
 
