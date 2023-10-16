@@ -2,13 +2,15 @@ from tkinter import *
 from tkinter import ttk  # para el Checkbutton
 from tkcalendar import DateEntry
 from create_user import CreateAlumnDict, CreateCatdrDict, JSONBuilder
+from dboperations import UserStatus
 import json
 
 # Crear una lista vacía para almacenar los widgets de tipo Entry
 entry_widgets = []
 
-def debugger():
-    print("Yep!")
+# Create a mutable list to hold the count
+count = [0]
+
 
 def new_alumn():
     # Obtener los valores ingresados en los campos de texto
@@ -30,7 +32,7 @@ def iniciar_sesion():
     contrasena = contrasena_entry.get()
     isUser = False
     isPass = False
-
+  
     # Leer el archivo JSON que contiene la información de los usuarios
     with open('./users.json', 'r') as f:
         data = json.load(f)
@@ -39,7 +41,10 @@ def iniciar_sesion():
                 isUser = True
                 if item[user]['password'] == contrasena:
                     isPass = True
+                    count[0] = 0  # Reset counter on successful login
                     break
+                else:
+                    count[0] += 1
 
         # Manejo de errores para usuario y contraseña
         if not isUser:
@@ -47,17 +52,26 @@ def iniciar_sesion():
         else:
             user_existn.pack_forget()
             if not isPass:
-                pass_existn.pack()
+                if count[0] >= 3:
+                    UserStatus(user, False)
+                    blocked_message.pack()
+                else:
+                    UserStatus(user, True)
+                    pass_existn.pack()
+        
             else:
                 pass_existn.pack_forget()
 
-            # Redireccionar la vista según el tipo de usuario
-            if item[user]['tipo'] == "alumn":
-                vista_alumno()
-            elif item[user]['tipo'] == "cat":
-                vista_catedra()
-            elif item[user]['tipo'] == "admin":
-                vista_admin()
+                # Redireccionar la vista según el tipo de usuario
+                if item[user]['confirm'] == 'false':
+                    pass
+                elif item[user]['confirm'] == 'true':
+                    if item[user]['tipo'] == "alumn":
+                        vista_alumno()
+                    elif item[user]['tipo'] == "cat":
+                        vista_catedra()
+                    elif item[user]['tipo'] == "admin":
+                        vista_admin()       
 
 def recuperar_pass():
     # Obtener datos del usuario y contraseña
@@ -78,7 +92,6 @@ def recuperar_pass():
             user_existn.pack_forget()
             #wait_view()
             build_main_view()
-
 
 def vista_alumno():
     global entry_widgets
@@ -162,7 +175,7 @@ def abrir_registro():
     
 def main_view():
     global titulo, usuario_label, usuario_entry, contrasena_label, contrasena_entry
-    global iniciar_sesion_button, registrar_button, user_existn, pass_existn
+    global iniciar_sesion_button, registrar_button, user_existn, pass_existn, blocked_message
 
     # Título de la página principal
     titulo = Label(ventana, text="Facultad de Ingeniería", font=("Helvetica", 40, "bold"))
@@ -198,9 +211,13 @@ def main_view():
     pass_existn = Label(ventana, text="Contraseña incorrecta", font=("Helvetica", 12), fg="red")
     pass_existn.place(relx=0.5, rely=0.8, anchor='center')
 
+    blocked_message = Label(ventana, text="Usuario bloqueado", font=("Helvetica", 12), fg="red")
+    blocked_message.place(relx=0.5, rely=0.8, anchor='center')
+
     # Inicialmente, ocultar las etiquetas de error
     user_existn.place_forget()
     pass_existn.place_forget()
+    blocked_message.place_forget()
 
 def build_main_view():
     # Destruir los widgets actuales si los hay (tener cuidado con este enfoque)
