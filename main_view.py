@@ -67,7 +67,6 @@ class MainView:
                 vista_admin()
     """
 
-    
     def update_error_message(self, message):
         self.error_message.config(text=message)
         self.error_message.place(relx=0.5, rely=0.75, anchor='center')  # Show the error message
