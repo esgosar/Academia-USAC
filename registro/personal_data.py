@@ -5,6 +5,8 @@ from tkinter import Label, Entry, Button
 class PersonalDataView(tk.Frame):
     def __init__(self, master, switch_view):
         super().__init__(master)
+        print(switch_view)  # Check if switch_view is None here
+
         self.master = master
         self.switch_view = switch_view
 
@@ -42,11 +44,11 @@ class PersonalDataView(tk.Frame):
         self.fecha_entry = create_label_entry(4, "Fecha de Nacimiento")
 
         # Buttons
-        self.left_button = Button(self.container, text="Back", font=("Helvetica", 16))
+        self.left_button = Button(self.container, text="Atrás", font=("Helvetica", 16), command=self.backward)
         self.left_button.grid(row=5, column=0, pady=20, sticky='w')  # Sticky 'w' to align to the left
 
-        self.right_button = Button(self.container, text="Next", font=("Helvetica", 16))
-        self.right_button.grid(row=5, column=1, pady=20, sticky='w')
+        self.right_button = Button(self.container, text="Siguiente", font=("Helvetica", 16), command=self.forward)
+        self.right_button.grid(row=5, column=2, pady=20, sticky='w')
 
     def on_entry_focus_in(self, event, entry, text):
         if entry.get() == text:
@@ -58,8 +60,13 @@ class PersonalDataView(tk.Frame):
             entry.insert(0, text)  # restore placeholder text
             entry.config(fg='grey', font=("Helvetica", 16, 'italic'))  # change color to grey and font weight to italic
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    view = PersonalDataView(root, None)
-    view.pack(fill=tk.BOTH, expand=True)
-    root.mainloop()
+    def backward(self):
+        import sys
+        import os
+        sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+        from main_view import MainView  # Conditional import
+        self.switch_view('MainView')
+
+    def forward(self):
+        from registro.user_data import UserDataView  # Conditional import
+        self.switch_view('UserDataView')
