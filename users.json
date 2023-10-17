@@ -26,7 +26,7 @@
         }
     },
     {
-        "soyeladmin": {
+        "admin": {
             "nombre": "",
             "apellido": "",
             "fecha": "10/15/23",
@@ -35,7 +35,186 @@
             "email": "",
             "password": "1234",
             "tipo": "admin",
-            "confirm": "true"
+            "confirm": true
+        }
+    },
+    {
+        "esgosar": {
+            "nombre": "",
+            "apellido": "",
+            "dpi": "",
+            "password": "thisis",
+            "tipo": "C\u00e1tedra",
+            "confirm": false
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "1234asdf\"#fA",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "asdf",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "asdf",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "ejemplo",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "ejemplo",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "ejemplo",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "ejemplo",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "abasd",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "abasd",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "qwertyuiM1.",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "nuevouser": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "Ejemplo1.com",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "bingoooo": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "Ejemplo1.com",
+            "tipo": "alumn",
+            "confirm": "false"
+        }
+    },
+    {
+        "esgosar.aasdlf": {
+            "nombre": "",
+            "apellido": "",
+            "fecha": "10/16/23",
+            "telf": "",
+            "dpi": "",
+            "email": "",
+            "password": "Ejemplo1.com",
+            "tipo": "alumn",
+            "confirm": "false"
         }
     }
 ]

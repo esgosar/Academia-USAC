@@ -1,9 +1,11 @@
 from tkinter import *
-from tkinter import ttk  # para el Checkbutton
+from tkinter import ttk, filedialog
 from tkcalendar import DateEntry
 from create_user import CreateAlumnDict, CreateCatdrDict, JSONBuilder
 from dboperations import UserStatus
 from security import CheckSecurity
+from PIL import ImageTk
+import image_processing  # Import the image_processing module
 import json
 
 # Crear una lista vacía para almacenar los widgets de tipo Entry
@@ -11,6 +13,16 @@ entry_widgets = []
 
 # Create a mutable list to hold the count
 count = [0]
+
+def upload_image():
+    file_path = filedialog.askopenfilename(title='Select Image', filetypes=[("All files", "*.*")])
+    if file_path:
+        processed_image = image_processing.process_image(file_path)  # Call the function from image_processing module
+        
+        # Display in Tkinter
+        photo = ImageTk.PhotoImage(processed_image)
+        label.config(image=photo)
+        label.photo = photo  # Keep a reference to avoid garbage collection
 
 def new_alumn():
     password = entry_widgets[7].get()
