@@ -5,6 +5,7 @@ from session import iniciar_sesion  # Import the iniciar_sesion function
 class MainView:
     def __init__(self, master):
         self.incorrect_password_count = 0  # Initialize the incorrect password count
+        
         self.master = master
         self.master.title("Facultad de Ingeniería")
 
@@ -75,8 +76,10 @@ class MainView:
         self.error_message.place_forget()  # Hide the error message
         
     def wrap_iniciar_sesion(self):
-        count = [0]  # If count is supposed to be persistent across calls, you'll need to store it as an attribute
-        iniciar_sesion(self.usuario_entry, self.contrasena_entry, self.update_error_message, count)
+        iniciar_sesion(self.usuario_entry, self.contrasena_entry, self.update_error_message, self)
+
+    def reset_incorrect_password_count(self):
+        self.incorrect_password_count = 0  # Reset the incorrect password count
 
     def vista_recuperacion():
         pass
