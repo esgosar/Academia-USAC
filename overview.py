@@ -1,15 +1,30 @@
-# Your main file
-
+# overview.py
 import tkinter as tk
-from main_view import MainView  # Import the MainView class
+from main_view import MainView
+from register_view import RegisterView
 
-# Configuration of the main window
-ventana = tk.Tk()  # Creates a new window using Tkinter
-ventana.title("Academia USAC")  # Sets the window title
-ventana.attributes('-fullscreen', True)  # Configures the window to open in fullscreen
+class AppController(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Academia USAC")
+        self.attributes('-fullscreen', True)
+        self.current_view = None
+        self.view_classes = {
+            'MainView': MainView,
+            'RegisterView': RegisterView
+        }
+        self.switch_view('MainView')
 
-# Building the main view:
-main_view = MainView(ventana)  # Calls the constructor of the MainView class, passing the ventana object
+    def switch_view(self, view_name):
+        view_class = self.view_classes.get(view_name)
+        if view_class:
+            new_view = view_class(self, self.switch_view)
+            if self.current_view:
+                self.current_view.pack_forget()
+            self.current_view = new_view
+            self.current_view.pack(fill=tk.BOTH, expand=True)
 
-# Running the application:
-ventana.mainloop()  # Starts the main loop of the Tkinter application
+
+if __name__ == "__main__":
+    app = AppController()
+    app.mainloop()

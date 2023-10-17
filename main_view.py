@@ -1,9 +1,13 @@
 import tkinter as tk
 from tkinter import Label, Entry, Button
 from session import iniciar_sesion  # Import the iniciar_sesion function
+#from register_view import RegisterView  # Import the RegisterView class
 
-class MainView:
-    def __init__(self, master):
+class MainView(tk.Frame):
+    def __init__(self, master, switch_view):
+        super().__init__(master)  # This line ensures that MainView is properly initialized as a tk.Frame object (Use tk.Frame.__init__ directly)
+        self.switch_view = switch_view
+
         self.incorrect_password_count = 0  # Initialize the incorrect password count
         
         self.master = master
@@ -29,43 +33,11 @@ class MainView:
         self.link.place(relx=0.5, rely=0.75, anchor='center')
         self.link.bind("<Button-1>", self.vista_recuperacion)
 
-        self.registrar_button = Button(master, text="Registrarse", font=("Helvetica", 16), command=self.abrir_registro)
-        self.registrar_button.place(relx=0.5, rely=0.8, anchor='center')
+        self.abrir_registro = Button(self, text="Registrarse", command=self.abrir_registro)
+        self.abrir_registro.place(relx=0.5, rely=0.8, anchor='center')
 
         self.error_message = Label(master, font=("Helvetica", 12), fg="red")
         self.error_message.place(relx=0.5, rely=0.75, anchor='center')
-    
-
-
-    """
-        self.user_existn = Label(master, text="Usuario no registrado", font=("Helvetica", 12), fg="red")
-        self.user_existn.place(relx=0.5, rely=0.75, anchor='center')
-
-        self.pass_existn = Label(master, text="Contraseña incorrecta", font=("Helvetica", 12), fg="red")
-        self.pass_existn.place(relx=0.5, rely=0.8, anchor='center')
-
-        self.blocked_message = Label(master, text="Usuario bloqueado", font=("Helvetica", 12), fg="red")
-        self.blocked_message.place(relx=0.5, rely=0.8, anchor='center')
-
-        # Initially hide the error labels
-        self.hide_error_labels()
-
-    def hide_error_labels(self):
-        self.user_existn.place_forget()
-        self.pass_existn.place_forget()
-        self.blocked_message.place_forget()
-
-        # Redireccionar la vista según el tipo de usuario
-        if item[user]['confirm'] == 'false':
-            pass
-        elif item[user]['confirm'] == 'true':
-            if item[user]['tipo'] == "alumn":
-                vista_alumno()
-            elif item[user]['tipo'] == "cat":
-                vista_catedra()
-            elif item[user]['tipo'] == "admin":
-                vista_admin()
-    """
 
     def update_error_message(self, message):
         self.error_message.config(text=message)
@@ -80,8 +52,9 @@ class MainView:
     def reset_incorrect_password_count(self):
         self.incorrect_password_count = 0  # Reset the incorrect password count
 
-    def vista_recuperacion():
+    def vista_recuperacion(self, idn):
         pass
 
-    def abrir_registro():
-        pass
+    def abrir_registro(self):
+        from register_view import RegisterView  # Conditional import
+        self.switch_view('RegisterView')
