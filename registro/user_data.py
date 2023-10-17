@@ -3,7 +3,7 @@ from tkinter import Label, Entry, Button
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from avatar.add_profile_picture import ClickableImageCanvas  # Import the ClickableImageCanvas class
+from add_profile_picture import ClickableImageCanvas  # Import the ClickableImageCanvas class
 
 class UserDataView(tk.Frame):
     def __init__(self, master, switch_view):

@@ -57,4 +57,4 @@ class MainView(tk.Frame):
 
     def abrir_registro(self):
         from register_view import RegisterView  # Conditional import
-        self.switch_view('RegisterView')
+        self.switch_view('PersonalDataView')
