@@ -1,7 +1,9 @@
+import base64
+from io import BytesIO
 import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk
-from image_processing import process_image # Adjusted import statement
+from image_processing import process_image
 
 
 class ClickableImageCanvas(tk.Canvas):
@@ -12,6 +14,7 @@ class ClickableImageCanvas(tk.Canvas):
         self.bind("<Enter>", self.on_enter)  # Bind mouse enter event
         self.bind("<Leave>", self.on_leave)  # Bind mouse leave event
         self.create_oval(0, 0, 200, 200, tags='circle')  # Create a filled circle with tag 'circle'
+        self.image_data = None  # Initialize image_data attribute to None
 
     def on_click(self, event):
         # Only respond to clicks within the circle
@@ -31,6 +34,18 @@ class ClickableImageCanvas(tk.Canvas):
         if file_path:
             processed_image = process_image(file_path)  # Call the function from image_processing module
             self.display_image(processed_image)
+            self.image_data = processed_image  # Store the image data
+
+    def get(self):
+        if self.image_data:
+            image_bytes_io = BytesIO()
+            self.image_data.save(image_bytes_io, format='PNG')  # Assumes the image is in PNG format
+            image_bytes = image_bytes_io.getvalue()
+            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+            return image_base64
+        else:
+            return None
+
 
     def display_image(self, image):
         self.delete("all")  # Delete previous image and circle

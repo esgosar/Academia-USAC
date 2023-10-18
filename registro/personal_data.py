@@ -1,3 +1,5 @@
+import globals
+# Interface imports
 import tkinter as tk
 from tkcalendar import DateEntry
 from tkinter import Label, Entry, Button
@@ -5,8 +7,6 @@ from tkinter import Label, Entry, Button
 class PersonalDataView(tk.Frame):
     def __init__(self, master, switch_view):
         super().__init__(master)
-        print(switch_view)  # Check if switch_view is None here
-
         self.master = master
         self.switch_view = switch_view
 
@@ -68,5 +68,11 @@ class PersonalDataView(tk.Frame):
         self.switch_view('MainView')
 
     def forward(self):
+        # Get the data from the entries
+        globals.nombres = self.nombres_entry.get()
+        globals.apellidos = self.apellidos_entry.get()
+        globals.dpi = self.dpi_entry.get()
+        globals.fecha_nacimiento = self.fecha_entry.get()
+
         from registro.user_data import UserDataView  # Conditional import
         self.switch_view('UserDataView')

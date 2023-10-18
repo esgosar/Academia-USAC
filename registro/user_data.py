@@ -1,3 +1,5 @@
+import globals
+
 import tkinter as tk
 from tkinter import Label, Entry, Button
 import sys
@@ -63,5 +65,10 @@ class UserDataView(tk.Frame):
         self.switch_view('PersonalDataView')
     
     def forward(self):
+        # Get the data from the entries
+        globals.usuario = self.usuario_entry.get()
+        globals.contrasena = self.contrasena_entry.get()
+        globals.avatar = self.image_canvas.get()
+
         from registro.contact_data import ContactDataView
         self.switch_view('ContactDataView')

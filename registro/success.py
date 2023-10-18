@@ -1,5 +1,7 @@
+import globals
 import tkinter as tk
 from tkinter import Label, Button
+
 
 class SuccessView(tk.Frame):
     def __init__(self, master, switch_view):

@@ -1,3 +1,5 @@
+import globals
+from globals import CreateUser
 import tkinter as tk
 from tkinter import Label, Entry, Button
 
@@ -55,5 +57,11 @@ class ContactDataView(tk.Frame):
         self.switch_view('UserDataView')
     
     def forward(self):
+        # Get the data from the entries
+        globals.email = self.email_entry.get()
+        globals.phone = self.phone_entry.get()
+
+        CreateUser(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, globals.contrasena, globals.email, globals.phone, "alumnn")
+
         from registro.success import SuccessView
         self.switch_view('SuccessView')
