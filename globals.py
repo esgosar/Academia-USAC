@@ -28,7 +28,6 @@ def CreateUser(nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contr
             "dpi": dpi,
             "nacimiento": fecha_nacimiento,
             "avatar": avatar,
-            "usuario": usuario,
             "password": contrasena,
             "email": email,
             "phone": phone,

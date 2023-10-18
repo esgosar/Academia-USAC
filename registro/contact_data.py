@@ -8,6 +8,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from check import isExplicityValidEmailAddress, isExplicityNumbers
 from encryptor import Encrypt
+from correo import Send
 
 class ContactDataView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -82,8 +83,9 @@ class ContactDataView(tk.Frame):
             else:
                 globals.phone = self.phone_entry.get()
 
-
+  
         CreateUser(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, str(Encrypt(globals.contrasena)), globals.email, globals.phone, "alumnn")
+        Send(str(globals.email))
 
         from registro.success import SuccessView
         self.switch_view('SuccessView')

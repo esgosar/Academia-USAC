@@ -1,7 +1,7 @@
+# MAIN SHOULD BE INSIDE SESSION DIRECTORY
 import tkinter as tk
 from tkinter import Label, Entry, Button
 from session import iniciar_sesion  # Import the iniciar_sesion function
-#from register_view import RegisterView  # Import the RegisterView class
 
 class MainView(tk.Frame):
     def __init__(self, master, switch_view):
