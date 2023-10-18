@@ -19,7 +19,7 @@ class SuccessView(tk.Frame):
         self.container.grid_rowconfigure((1, 2), weight=1)  # Allow rows to expand
 
         # Title
-        self.title_label = Label(self.container, text="Datos de Contacto", font=("Helvetica", 50))
+        self.title_label = Label(self.container, text="Registrado Exitoso", font=("Helvetica", 50))
         self.title_label.grid(row=1, column=0, pady=(0, 20), sticky='nsew')  # Centered alignment
 
         # Buttons

@@ -1,11 +1,13 @@
 import globals
 
 import tkinter as tk
-from tkinter import Label, Entry, Button
+from tkinter import Label, Entry, Button, messagebox
+
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from add_profile_picture import ClickableImageCanvas  # Import the ClickableImageCanvas class
+from check import isExplicityValidPassword
 
 class UserDataView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -44,7 +46,7 @@ class UserDataView(tk.Frame):
         self.contrasena_entry = create_label_entry(3, "Contraseña")
 
         # Buttons
-        self.left_button = Button(self.container, text="Atrás", font=("Helvetica", 16), command=self.backward)
+        self.left_button = Button(self.container, text="Cancelar", font=("Helvetica", 16), command=self.backward)
         self.left_button.grid(row=4, column=0, pady=20, sticky='w')  # Sticky 'w' to align to the left
 
         self.right_button = Button(self.container, text="Siguiente", font=("Helvetica", 16), command=self.forward)
@@ -61,14 +63,33 @@ class UserDataView(tk.Frame):
             entry.config(fg='grey', font=("Helvetica", 16, 'italic'))  # change color to grey and font weight to italic
 
     def backward(self):
-        from registro.personal_data import PersonalDataView  # Conditional import
-        self.switch_view('PersonalDataView')
+        import sys
+        import os
+        sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+        from main_view import MainView  # Conditional import
+        self.switch_view('MainView')
     
     def forward(self):
-        # Get the data from the entries
-        globals.usuario = self.usuario_entry.get()
-        globals.contrasena = self.contrasena_entry.get()
-        globals.avatar = self.image_canvas.get()
+        if self.usuario_entry.get() == 'Usuario' or self.contrasena_entry.get() == 'Contraseña':
+            messagebox.showerror("Error", "Todos los campos son obligatorios")
+            return  # Return early to prevent further processing
+        else:
+            if isExplicityValidPassword(str(self.contrasena_entry.get())) == 1:
+                messagebox.showerror("Error", "La contraseña debe tener al menos 8 caracteres")
+                return  # Return early to prevent further processing
+            elif isExplicityValidPassword(str(self.contrasena_entry.get())) == 2:
+                messagebox.showerror("Error", "La contraseña debe tener al menos una letra mayúscula")
+                return  # Return early to prevent further processing
+            elif isExplicityValidPassword(str(self.contrasena_entry.get())) == 3:
+                messagebox.showerror("Error", "La contraseña debe tener al menos un dígito")
+                return  # Return early to prevent further processing
+            elif isExplicityValidPassword(str(self.contrasena_entry.get())) == 4:
+                messagebox.showerror("Error", "La contraseña debe tener al menos un símbolo")
+                return  # Return early to prevent further processing
+            elif isExplicityValidPassword(str(self.contrasena_entry.get())) == 5:
+                globals.contrasena = self.contrasena_entry.get()
+                globals.usuario = self.usuario_entry.get()
+    
 
         from registro.contact_data import ContactDataView
         self.switch_view('ContactDataView')

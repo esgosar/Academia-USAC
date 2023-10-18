@@ -2,7 +2,12 @@ import globals
 # Interface imports
 import tkinter as tk
 from tkcalendar import DateEntry
-from tkinter import Label, Entry, Button
+from tkinter import Label, Entry, Button, messagebox
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from check import isExplicityLetters, isExplicityNumbers, isVoid
 
 class PersonalDataView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -44,7 +49,7 @@ class PersonalDataView(tk.Frame):
         self.fecha_entry = create_label_entry(4, "Fecha de Nacimiento")
 
         # Buttons
-        self.left_button = Button(self.container, text="Atrás", font=("Helvetica", 16), command=self.backward)
+        self.left_button = Button(self.container, text="Cancelar", font=("Helvetica", 16), command=self.backward)
         self.left_button.grid(row=5, column=0, pady=20, sticky='w')  # Sticky 'w' to align to the left
 
         self.right_button = Button(self.container, text="Siguiente", font=("Helvetica", 16), command=self.forward)
@@ -68,11 +73,29 @@ class PersonalDataView(tk.Frame):
         self.switch_view('MainView')
 
     def forward(self):
-        # Get the data from the entries
-        globals.nombres = self.nombres_entry.get()
-        globals.apellidos = self.apellidos_entry.get()
-        globals.dpi = self.dpi_entry.get()
-        globals.fecha_nacimiento = self.fecha_entry.get()
+        if self.nombres_entry.get() == 'Nombres' or self.apellidos_entry.get() == 'Apellidos' or self.dpi_entry.get() == 'DPI':
+            messagebox.showerror("Error", "Todos los campos son obligatorios")
+            return  # Return early to prevent further processing
+        else:
+            if not isExplicityLetters(str(self.nombres_entry.get())):
+                messagebox.showerror("Error", "Nombre inválido")
+                return  # Return early to prevent further processing
+            else:
+                globals.nombres = self.nombres_entry.get()
+
+            if not isExplicityLetters(str(self.apellidos_entry.get())):
+                messagebox.showerror("Error", "Apellido inválido")
+                return
+            else:
+                globals.apellidos = self.apellidos_entry.get()
+
+            if not isExplicityNumbers(str(self.dpi_entry.get())):
+                messagebox.showerror("Error", "DPI inválido")
+                return  # Return early to prevent further processing
+            else:
+                globals.dpi = self.dpi_entry.get()
+
+            globals.fecha_nacimiento = self.fecha_entry.get()
 
         from registro.user_data import UserDataView  # Conditional import
         self.switch_view('UserDataView')
