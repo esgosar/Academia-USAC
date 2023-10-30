@@ -6,6 +6,9 @@ from registro.personal_data import PersonalDataView
 from registro.user_data import UserDataView
 from registro.contact_data import ContactDataView
 from registro.success import SuccessView
+from sesion.admin.main_view import AdminView
+from sesion.alumn.alumn_view import AlumnView
+from sesion.cat.main_view import CatView
 
 class AppController(tk.Tk):
     def __init__(self):
@@ -18,7 +21,9 @@ class AppController(tk.Tk):
             'PersonalDataView': PersonalDataView,
             'UserDataView': UserDataView,
             'ContactDataView': ContactDataView,
-            'SuccessView': SuccessView
+            'AdminView': AdminView,
+            'AlumnView': AlumnView,
+            'CatView': CatView
         }
         self.switch_view('MainView')
 
@@ -27,9 +32,7 @@ class AppController(tk.Tk):
         if view_class:
             new_view = view_class(self, self.switch_view)
             if self.current_view:
-                print('1')
                 self.current_view.pack_forget()
-                print('2')
             self.current_view = new_view
             self.current_view.pack(fill=tk.BOTH, expand=True)
 

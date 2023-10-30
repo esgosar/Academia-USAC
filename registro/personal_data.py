@@ -1,4 +1,3 @@
-import globals
 # Interface imports
 import tkinter as tk
 from tkcalendar import DateEntry
@@ -7,7 +6,9 @@ from tkinter import Label, Entry, Button, messagebox
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from check import isExplicityLetters, isExplicityNumbers, isVoid
+import globals
+from check import isExplicitlyName, isExplicitlyDPI
+
 
 class PersonalDataView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -77,19 +78,19 @@ class PersonalDataView(tk.Frame):
             messagebox.showerror("Error", "Todos los campos son obligatorios")
             return  # Return early to prevent further processing
         else:
-            if not isExplicityLetters(str(self.nombres_entry.get())):
+            if not isExplicitlyName(str(self.nombres_entry.get())):
                 messagebox.showerror("Error", "Nombre inválido")
                 return  # Return early to prevent further processing
             else:
                 globals.nombres = self.nombres_entry.get()
 
-            if not isExplicityLetters(str(self.apellidos_entry.get())):
+            if not isExplicitlyName(str(self.apellidos_entry.get())):
                 messagebox.showerror("Error", "Apellido inválido")
                 return
             else:
                 globals.apellidos = self.apellidos_entry.get()
 
-            if not isExplicityNumbers(str(self.dpi_entry.get())):
+            if not isExplicitlyDPI(str(self.dpi_entry.get())):
                 messagebox.showerror("Error", "DPI inválido")
                 return  # Return early to prevent further processing
             else:

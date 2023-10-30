@@ -12,20 +12,21 @@ def isExplicityValidPassword(password):
     else:
         return 5
 
-def isVoid(input_str):
-    if len(input_str) < 1:
+def isExplicitlyName(input_str):
+    if re.fullmatch(r'([A-ZÁÉÍÓÚÑ][A-Za-zñáéíóú\- ]+)+', input_str):
         return True
     else:
         return False
 
-def isExplicityLetters(input_str):
-    if re.fullmatch(r'[A-Za-z]+', input_str):
+
+def isExplicitlyDPI(input_str):
+    if re.fullmatch(r'\d{13}', input_str):
         return True
     else:
         return False
 
-def isExplicityNumbers(input_str):
-    if re.fullmatch(r'\d+', input_str):
+def isExplicitlyPhoneNumber(input_str):
+    if re.fullmatch(r'\d{8}', input_str):
         return True
     else:
         return False

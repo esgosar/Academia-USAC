@@ -1,60 +1,38 @@
-[
-    {
-        "esgosar": {
-            "nombres": "asdf",
-            "apellidos": "qwer",
-            "dpi": "12340987678912",
-            "nacimiento": "10/18/23",
-            "avatar": "",
-            "usuario": "esgosar",
-            "password": "b'gAAAAABlMBEH_0oFq2a2HVpNosjO7XwLywEMA3_Cg5VAXMTo0jo3Du8OSW2icI-52gKcDnnDg9cQVfkBu-qm0glPlhrVzXh47A=='",
-            "email": "esgonsasr@gmial.com",
-            "phone": "123409870",
-            "tipo": "alumnn",
-            "confirm": "false"
-        }
+{
+    "esgosar": {
+        "nombres": "Jose",
+        "apellidos": "Gonz\u00e1lez",
+        "dpi": "3354094580901",
+        "nacimiento": "10/25/23",
+        "avatar": "",
+        "password": "1234",
+        "email": "esgonsar@gmail.com",
+        "phone": "12341234",
+        "tipo": "alumn",
+        "confirm": true
     },
-    {
-        "esgosarlavida": {
-            "nombres": "Otro",
-            "apellidos": "Usaurio",
-            "dpi": "123409871234",
-            "nacimiento": "10/18/23",
-            "avatar": "",
-            "usuario": "esgosarlavida",
-            "password": "b'gAAAAABlMBG8_5BF6jc0xjr2RZXkipLy6edYhb3IvMlGk1J2ymPClW0GVZRKF4ECAXH8bMDDqPHElvLjYqxlI5nlTqEClMFsIw=='",
-            "email": "esgonasr@gmail.com",
-            "phone": "12340987",
-            "tipo": "alumnn",
-            "confirm": "false"
-        }
+    "admin": {
+        "nombres": "Ala",
+        "apellidos": "Bela",
+        "dpi": "1234567891234",
+        "nacimiento": "10/18/23",
+        "avatar": "",
+        "password": "b'gAAAAABlMH1ZR4WHn50FKtu_Hse4Ugq9TqJSsHLj7m_vK9azII5qaZK6wMw8DKXwLHedxe286A1Vj056pQX12nkq5Q2qQvGuqA=='",
+        "email": "esgosar@gmail.com",
+        "phone": "12341234",
+        "tipo": "admin",
+        "confirm": false
     },
-    {
-        "esfsa": {
-            "nombres": "ABc",
-            "apellidos": "asdfa",
-            "dpi": "12341234",
-            "nacimiento": "10/18/23",
-            "avatar": "",
-            "password": "b'gAAAAABlMB0E31N9mUkqsqygR8ergA5B0w2zW_ppNQn2S_dIYAO0hYPIsbMYDbs59XUPNindtm2g317xnZab7rZ9w4v3oF3t-g=='",
-            "email": "esgosar@gmail.com",
-            "phone": "12341234",
-            "tipo": "alumnn",
-            "confirm": "false"
-        }
-    },
-    {
-        "selifj23": {
-            "nombres": "joijasdf",
-            "apellidos": "iasjdoij",
-            "dpi": "2342342",
-            "nacimiento": "10/18/23",
-            "avatar": "",
-            "password": "b'gAAAAABlMB6_nVmBcMMspbHrYrgHa4COS1xqiY0EweFje1YIqGlJc8UlTU4gz_uheRvA4ASTyUDjIu7Wxak4RaJzglsZFlwHgg=='",
-            "email": "esgosar@gmail.com",
-            "phone": "12341234",
-            "tipo": "alumnn",
-            "confirm": "false"
-        }
+    "esssas": {
+        "nombres": "Asdf",
+        "apellidos": "Asdf",
+        "dpi": "3354094580910",
+        "nacimiento": "10/25/23",
+        "avatar": "",
+        "password": "b'gAAAAABlOYmEnhZXmi3IkBm8TrYLlZgbhVEvZ5s85b6sQcISmQShdVVTl33grnIwzGsuk0LMQslZSuf-8vTKTlaqLVzxuaDTLA=='",
+        "email": "esgosar@gmail.com",
+        "phone": "12341243",
+        "tipo": "cat",
+        "confirm": false
     }
-]
+}

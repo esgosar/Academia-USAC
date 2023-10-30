@@ -1,11 +1,10 @@
-import globals
-
 import tkinter as tk
 from tkinter import Label, Entry, Button, messagebox
 
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import globals
 from add_profile_picture import ClickableImageCanvas  # Import the ClickableImageCanvas class
 from check import isExplicityValidPassword
 

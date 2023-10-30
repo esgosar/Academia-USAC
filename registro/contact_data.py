@@ -1,14 +1,13 @@
-import globals
-from globals import CreateUser
 import tkinter as tk
 from tkinter import Label, Entry, Button, messagebox
 
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from check import isExplicityValidEmailAddress, isExplicityNumbers
+import globals
+from check import isExplicityValidEmailAddress, isExplicitlyPhoneNumber
 from encryptor import Encrypt
-from correo import Send
+#from correo import Send
 
 class ContactDataView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -77,15 +76,15 @@ class ContactDataView(tk.Frame):
             else:
                 globals.email = self.email_entry.get()
 
-            if not isExplicityNumbers(str(self.phone_entry.get())):
+            if not isExplicitlyPhoneNumber(str(self.phone_entry.get())):
                 messagebox.showerror("Error", "Número de teléfono inválido")
                 return
             else:
                 globals.phone = self.phone_entry.get()
 
   
-        CreateUser(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, str(Encrypt(globals.contrasena)), globals.email, globals.phone, "alumnn")
-        Send(str(globals.email))
+        globals.CreateUser(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, globals.contrasena, globals.email, globals.phone, "alumn")
+        #Send(self.email_entry.get())
 
         from registro.success import SuccessView
         self.switch_view('SuccessView')

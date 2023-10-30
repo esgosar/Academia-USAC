@@ -1,6 +1,10 @@
-import globals
 import tkinter as tk
 from tkinter import Label, Button
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import globals
 
 
 class SuccessView(tk.Frame):
@@ -19,7 +23,7 @@ class SuccessView(tk.Frame):
         self.container.grid_rowconfigure((1, 2), weight=1)  # Allow rows to expand
 
         # Title
-        self.title_label = Label(self.container, text="Registrado Exitoso", font=("Helvetica", 50))
+        self.title_label = Label(self.container, text="Registro Exitoso", font=("Helvetica", 50))
         self.title_label.grid(row=1, column=0, pady=(0, 20), sticky='nsew')  # Centered alignment
 
         # Buttons

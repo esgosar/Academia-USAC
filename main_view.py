@@ -47,8 +47,16 @@ class MainView(tk.Frame):
         self.error_message.place_forget()  # Hide the error message
         
     def wrap_iniciar_sesion(self):
-        iniciar_sesion(self.usuario_entry, self.contrasena_entry, self.update_error_message, self)
-
+        if iniciar_sesion(self.usuario_entry, self.contrasena_entry, self.update_error_message, self) == 3:
+            from sesion.admin.main_view import AdminView  # Conditional import
+            self.switch_view('AdminView')
+        elif iniciar_sesion(self.usuario_entry, self.contrasena_entry, self.update_error_message, self) == 1:
+            from sesion.alumn.alumn_view import AlumnView  # Conditional import
+            self.switch_view('AlumnView')
+        elif iniciar_sesion(self.usuario_entry, self.contrasena_entry, self.update_error_message, self) == 2:
+            from sesion.cat.main_view import CatView  # Conditional import
+            self.switch_view('CatView')
+    
     def reset_incorrect_password_count(self):
         self.incorrect_password_count = 0  # Reset the incorrect password count
 
