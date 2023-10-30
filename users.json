@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "esgosar": {
         "nombres": "Jose",
@@ -10,6 +11,30 @@
         "phone": "12341234",
         "tipo": "alumn",
         "confirm": true
+=======
+[
+    {
+    "admin": {
+        "username": "admin",
+        "password": "1234",
+        "tipo": "admin"
+    }
+},
+    {
+        "esgosar": {
+            "nombres": "asdf",
+            "apellidos": "qwer",
+            "dpi": "12340987678912",
+            "nacimiento": "10/18/23",
+            "avatar": "",
+            "usuario": "esgosar",
+            "password": "b'gAAAAABlMBEH_0oFq2a2HVpNosjO7XwLywEMA3_Cg5VAXMTo0jo3Du8OSW2icI-52gKcDnnDg9cQVfkBu-qm0glPlhrVzXh47A=='",
+            "email": "esgonsasr@gmial.com",
+            "phone": "123409870",
+            "tipo": "alumnn",
+            "confirm": "false"
+        }
+>>>>>>> origin/main
     },
     "admin": {
         "nombres": "Ala",
@@ -35,4 +60,8 @@
         "tipo": "cat",
         "confirm": false
     }
+<<<<<<< HEAD
 }
+=======
+]
+>>>>>>> origin/main
