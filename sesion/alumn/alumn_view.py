@@ -7,6 +7,7 @@ class AlumnView(tk.Frame):
 
         self.root = tk.Frame(self)
         self.root.pack(padx=50, pady=50, expand=True)
+        self.switch_view = switch_view
 
         # Barra superior
         self.barra_superior = tk.Frame(self.root, bg="#87CEEB")
@@ -48,6 +49,19 @@ class AlumnView(tk.Frame):
             # Crear botón para inscribirse en el curso
             inscribirse_button = tk.Button(mosaico, text="Inscribirse", command=lambda curso=curso_data["nombre"]: self.on_mosaico_click(curso))
             inscribirse_button.pack()
-            
+
+         # Button at top-left
+        self.top_left_button = tk.Button(self.barra_superior, text="Cerrar sesión", command=self.close_session)
+        self.top_left_button.pack(side='left')
+
+
+    def close_session(self):
+        import sys
+        import os
+        sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+        from main_view import MainView  # Conditional import
+        self.switch_view('MainView')
+    
+  
     def on_mosaico_click(self, curso):
         print(f"Has hecho clic en el curso: {curso}")

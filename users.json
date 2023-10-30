@@ -1,67 +1,38 @@
-<<<<<<< HEAD
 {
-    "esgosar": {
-        "nombres": "Jose",
-        "apellidos": "Gonz\u00e1lez",
-        "dpi": "3354094580901",
-        "nacimiento": "10/25/23",
+    "ivon": {
+        "nombres": "Mayerli Ivon",
+        "apellidos": "Argueta Claudio",
+        "dpi": "3651686290101",
+        "nacimiento": "06/03/04",
         "avatar": "",
-        "password": "1234",
-        "email": "esgonsar@gmail.com",
-        "phone": "12341234",
+        "password": "SoyLaNumero1y.",
+        "email": "3651686290101@ingenieria.usac.edu.gt",
+        "phone": "33992316",
+        "tipo": "admin",
+        "confirm": true
+    },
+    "esgosar": {
+        "nombres": "Jos\u00e9 Estuardo",
+        "apellidos": "Gonz\u00e1lez Sarce\u00f1o",
+        "dpi": "3354094580901",
+        "nacimiento": "07/02/01",
+        "avatar": "",
+        "password": "SoyElNumero1y.",
+        "email": "3354094580901@ingenieria.usac.edu.gt",
+        "phone": "54159536",
         "tipo": "alumn",
         "confirm": true
-=======
-[
-    {
-    "admin": {
-        "username": "admin",
-        "password": "1234",
-        "tipo": "admin"
-    }
-},
-    {
-        "esgosar": {
-            "nombres": "asdf",
-            "apellidos": "qwer",
-            "dpi": "12340987678912",
-            "nacimiento": "10/18/23",
-            "avatar": "",
-            "usuario": "esgosar",
-            "password": "b'gAAAAABlMBEH_0oFq2a2HVpNosjO7XwLywEMA3_Cg5VAXMTo0jo3Du8OSW2icI-52gKcDnnDg9cQVfkBu-qm0glPlhrVzXh47A=='",
-            "email": "esgonsasr@gmial.com",
-            "phone": "123409870",
-            "tipo": "alumnn",
-            "confirm": "false"
-        }
->>>>>>> origin/main
     },
-    "admin": {
-        "nombres": "Ala",
-        "apellidos": "Bela",
-        "dpi": "1234567891234",
-        "nacimiento": "10/18/23",
+    "cat": {
+        "nombres": "Catedr\u00e1tique",
+        "apellidos": "Professor",
+        "dpi": "1234567891011",
+        "nacimiento": "10/30/23",
         "avatar": "",
-        "password": "b'gAAAAABlMH1ZR4WHn50FKtu_Hse4Ugq9TqJSsHLj7m_vK9azII5qaZK6wMw8DKXwLHedxe286A1Vj056pQX12nkq5Q2qQvGuqA=='",
-        "email": "esgosar@gmail.com",
+        "password": "Ejemplo1.",
+        "email": "caterpiler@fiusac.edu.gt",
         "phone": "12341234",
-        "tipo": "admin",
-        "confirm": false
-    },
-    "esssas": {
-        "nombres": "Asdf",
-        "apellidos": "Asdf",
-        "dpi": "3354094580910",
-        "nacimiento": "10/25/23",
-        "avatar": "",
-        "password": "b'gAAAAABlOYmEnhZXmi3IkBm8TrYLlZgbhVEvZ5s85b6sQcISmQShdVVTl33grnIwzGsuk0LMQslZSuf-8vTKTlaqLVzxuaDTLA=='",
-        "email": "esgosar@gmail.com",
-        "phone": "12341243",
         "tipo": "cat",
-        "confirm": false
+        "confirm": true
     }
-<<<<<<< HEAD
 }
-=======
-]
->>>>>>> origin/main

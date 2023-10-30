@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 
-class CatView:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Panel de Profesor")
-        self.root.geometry("600x400")
-        
+class CatView(tk.Frame):
+    def __init__(self, master, switch_view):
+        super().__init__(master)
+
+        self.root = tk.Frame(self)
+        self.root.pack(padx=50, pady=50, expand=True)
+        self.switch_view = switch_view
         self.create_widgets()
         
     def create_widgets(self):
@@ -44,6 +45,19 @@ class CatView:
             # Crear botón para acceder al área
             acceder_button = tk.Button(mosaico, text="Acceder", command=lambda area=area_data["nombre"]: self.on_mosaico_click(area))
             acceder_button.pack()
-            
+        
+         # Button at top-left
+        self.top_left_button = tk.Button(self.barra_superior, text="Cerrar sesión", command=self.close_session)
+        self.top_left_button.pack(side='left')
+
+
+    def close_session(self):
+        import sys
+        import os
+        sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+        from main_view import MainView  # Conditional import
+        self.switch_view('MainView')
+    
+    
     def on_mosaico_click(self, nombre_area):
         print(f"Has hecho clic en la función: {nombre_area}")

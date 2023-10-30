@@ -2,8 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 
 class AdminView(tk.Frame):
-    def create_widgets(self, master, switch_view):
+    def __init__(self, master, switch_view):
         super().__init__(master)
+
+        self.root = tk.Frame(self)
+        self.root.pack(padx=50, pady=50, expand=True)
+        self.switch_view = switch_view
 
         # Barra superior
         self.barra_superior = tk.Frame(self.root, bg="#87CEEB")
@@ -41,6 +45,17 @@ class AdminView(tk.Frame):
             # Crear botón para inscribirse en el curso
             editar_button = tk.Button(mosaico, text="Editar", command=lambda curso=admin_data["nombre"]: self.on_mosaico_click(curso))
             editar_button.pack()
-            
+
+        # Button at top-left
+        self.top_left_button = tk.Button(self.barra_superior, text="Cerrar sesión", command=self.close_session)
+        self.top_left_button.pack(side='left')
+
+    def close_session(self):
+        import sys
+        import os
+        sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+        from main_view import MainView  # Conditional import
+        self.switch_view('MainView')
+    
     def on_mosaico_click(self, editar):
         print(f"Has hecho clic : {editar}")

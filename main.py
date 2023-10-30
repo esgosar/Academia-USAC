@@ -6,9 +6,9 @@ from registro.personal_data import PersonalDataView
 from registro.user_data import UserDataView
 from registro.contact_data import ContactDataView
 from registro.success import SuccessView
-from sesion.admin.main_view import AdminView
+from sesion.admin.admin_view import AdminView
 from sesion.alumn.alumn_view import AlumnView
-from sesion.cat.main_view import CatView
+from sesion.cat.cat_view import CatView
 
 class AppController(tk.Tk):
     def __init__(self):
