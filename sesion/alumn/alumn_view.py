@@ -2,8 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 
 class AlumnView(tk.Frame):
-    def create_widgets(self, master, switch_view):
+    def __init__(self, master, switch_view):
         super().__init__(master)
+
+        self.root = tk.Frame(self)
+        self.root.pack(padx=50, pady=50, expand=True)
 
         # Barra superior
         self.barra_superior = tk.Frame(self.root, bg="#87CEEB")
