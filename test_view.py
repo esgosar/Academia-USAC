@@ -21,7 +21,7 @@ profile_section.pack(side=tk.RIGHT, padx=10, pady=10)
 username = tk.Label(profile_section, text="Username", bg="white", fg="black", font=("Helvetica", 16))
 username.pack(side=tk.LEFT)
 
-image_viewer_canvas = ImageViewerCanvas(master=profile_section, json_file_path='users.json', username='user', width=40, height=40)
+image_viewer_canvas = ImageViewerCanvas(master=profile_section, username='user', width=40, height=40)
 image_viewer_canvas.pack(side=tk.RIGHT, padx=10)
 
 # Start the GUI event loop
