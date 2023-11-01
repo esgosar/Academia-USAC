@@ -1,6 +1,7 @@
 import tkinter as tk
 import sys
 import os
+import globals
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from image_display import ImageViewerCanvas
 
@@ -29,7 +30,7 @@ class AssignCoursesModal(tk.Toplevel):
 
         # Create labels and entries for each item
         self.labels_and_entries = {}
-        items = ["Nombre", "Código", "Costo", "Horario", "Cupo", "Catedrático"]
+        items = ["Código", "Nombre", "Costo", "Horario", "Cupo", "Catedrático"]
         for i, item in enumerate(items):
             label = tk.Label(self.center_frame, text=item)
             entry = tk.Entry(self.center_frame)
@@ -48,9 +49,16 @@ class AssignCoursesModal(tk.Toplevel):
         self.protocol("WM_DELETE_WINDOW", self.destroy)  # Handle the modal closure
 
     def on_next(self):
-        print("siguiente")
-        for item, entry in self.labels_and_entries.items():
-            print(f"{item}: {entry.get()}")  # Print entered values to console
+        # Retrieve values from the Entry widgets
+        codigo = self.labels_and_entries["Código"].get()
+        nombre = self.labels_and_entries["Nombre"].get()
+        costo = self.labels_and_entries["Costo"].get()
+        horario = self.labels_and_entries["Horario"].get()
+        cupo = self.labels_and_entries["Cupo"].get()
+        cat = self.labels_and_entries["Catedrático"].get()
+
+        # Call CreateCourse to store the values
+        globals.CreateCourse(codigo, nombre, costo, horario, cupo, cat)
         self.destroy()
 
 
