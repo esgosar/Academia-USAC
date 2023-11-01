@@ -1,61 +1,49 @@
 import tkinter as tk
-from tkinter import ttk
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from image_display import ImageViewerCanvas
 
 class AdminView(tk.Frame):
     def __init__(self, master, switch_view):
         super().__init__(master)
-
-        self.root = tk.Frame(self)
-        self.root.pack(padx=50, pady=50, expand=True)
+        self.root = tk.Frame(self, bg="grey")
+        self.root.pack(expand=True, fill=tk.BOTH)
         self.switch_view = switch_view
 
-        # Barra superior
-        self.barra_superior = tk.Frame(self.root, bg="#87CEEB")
-        self.barra_superior.pack(fill="x")
+        # Header
+        self.header = tk.Frame(self.root, bg="white", height=60)
+        self.header.pack(fill=tk.X, side=tk.TOP)
 
-        self.nombre_usuario = "Nombre de Usuario"
-        self.mensaje_bienvenida = tk.Label(self.barra_superior, text=f"¡Bienvenido, {self.nombre_usuario}!", font=("Helvetica", 12), bg="#87CEEB", fg="black")
-        self.mensaje_bienvenida.pack(anchor='center')
+        self.header_text = tk.Label(self.header, text="Crear Curso", bg="white", fg="black", font=("Helvetica", 16))
+        self.header_text.pack(side=tk.LEFT, padx=10)
 
-        # Marco para los mosaicos
-        self.mosaicos_frame = tk.Frame(self.root, bg="white")
-        self.mosaicos_frame.pack()
+        self.header_text.bind("<Button-1>", self.create_course)
+        self.header_text.bind("<Enter>", lambda e: self.header_text.config(cursor="hand2"))
+        self.header_text.bind("<Leave>", lambda e: self.header_text.config(cursor=""))
 
-        # Ancho y alto uniformes para los mosaicos
-        ancho_mosaico = 200
-        alto_mosaico = 200
+        # Create a label for closing session
+        self.close_session_label = tk.Label(self.header, text="Cerrar sesión", bg="white", fg="black", font=("Helvetica", 16), cursor="hand2")
+        self.close_session_label.pack(side=tk.RIGHT, padx=10)
+        # Bind left-click event to close_session_label to trigger close_session method
+        self.close_session_label.bind("<Button-1>", lambda e: self.close_session())
 
-        # Estilos para los cursos
-        curso_style = {"bg": "white", "fg": "black", "font": ("Helvetica", 14, "bold")}
-        cursos = [
-            {"nombre": "Nuevos Profesores", "imagen": "math.png"},
-            {"nombre": "Nuevos Cursos", "imagen": "history.png"},
-            {"nombre": "Profesores registrados", "imagen": "python.png"},
-            {"nombre": "Cursos", "imagen": "art.png"},
-        ]
+        # Border line
+        self.border_line = tk.Frame(self.root, height=1, bg='black')
+        self.border_line.pack(fill=tk.X, side=tk.TOP)
 
-        for i, admin_data in enumerate(cursos):
-            mosaico = ttk.Frame(self.mosaicos_frame, padding=10)
-            mosaico.grid(row=i // 3, column=i % 3, padx=20, pady=10)
-
-            # Crear etiqueta para el nombre del curso
-            nombre_label = tk.Label(mosaico, text=admin_data["nombre"], **curso_style)
-            nombre_label.pack()
-
-            # Crear botón para inscribirse en el curso
-            editar_button = tk.Button(mosaico, text="Editar", command=lambda curso=admin_data["nombre"]: self.on_mosaico_click(curso))
-            editar_button.pack()
-
-        # Button at top-left
-        self.top_left_button = tk.Button(self.barra_superior, text="Cerrar sesión", command=self.close_session)
-        self.top_left_button.pack(side='left')
-
+        # Body
+        self.message_label = tk.Label(self.root, text="Sin cursos creados", bg="grey", fg="white", font=("Helvetica", 24))
+        self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
     def close_session(self):
         import sys
         import os
         sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
         from main_view import MainView  # Conditional import
         self.switch_view('MainView')
-    
-    def on_mosaico_click(self, editar):
-        print(f"Has hecho clic : {editar}")
+
+    def create_course(self, event):
+        print("yep")
+
+# ... rest of your code
