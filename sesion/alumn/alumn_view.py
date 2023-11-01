@@ -68,5 +68,5 @@ class AlumnView(tk.Frame):
         self.switch_view('MainView')
 
     def assign_courses(self, event):
-        # Logic to handle "Asignar Cursos" click
-        print("Asignar Cursos clicked")
+        from assign_view import AssignView  # Conditional import
+        self.switch_view('AssignView')

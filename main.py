@@ -8,6 +8,7 @@ from registro.contact_data import ContactDataView
 from registro.success import SuccessView
 from sesion.admin.admin_view import AdminView
 from sesion.alumn.alumn_view import AlumnView
+from sesion.alumn.assign_view import AssignView
 from sesion.cat.cat_view import CatView
 
 class AppController(tk.Tk):
@@ -23,6 +24,7 @@ class AppController(tk.Tk):
             'ContactDataView': ContactDataView,
             'AdminView': AdminView,
             'AlumnView': AlumnView,
+            'AssignView': AssignView,
             'CatView': CatView
         }
         self.switch_view('MainView')
