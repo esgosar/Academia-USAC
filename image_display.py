@@ -5,17 +5,18 @@ from PIL import Image, ImageTk
 import tkinter as tk
 
 class ImageViewerCanvas(tk.Canvas):
-    def __init__(self, master=None, username=None, image_size=(24, 24), **kwargs):
-        super().__init__(master, width=image_size[0], height=image_size[1], **kwargs)
-        self.config(highlightthickness=0)  # Set background color to white, remove border
-        self.image_size = image_size  # Store the image size
+    def __init__(self, master=None, json_file_path=None, username=None, width=40, height=40, **kwargs):
+        super().__init__(master, width=width, height=height, bg='white', **kwargs)
+        self.config(highlightthickness=0)
         self.image_data = None
-        self.json_file_path = 'users.json'  # The JSON file name is hardcoded
+        self.width = width
+        self.height = height
+        self.json_file_path = json_file_path
         self.username = username
         self.load_and_display_avatar_from_json()
 
     def load_and_display_avatar_from_json(self):
-        if self.username:
+        if self.json_file_path and self.username:
             with open(self.json_file_path, 'r') as file:
                 data = json.load(file)
                 user_data = data.get(self.username)
@@ -26,11 +27,14 @@ class ImageViewerCanvas(tk.Canvas):
         if image_base64:
             image_bytes = base64.b64decode(image_base64)
             image = Image.open(BytesIO(image_bytes))
-            image = image.resize(self.image_size, Image.LANCZOS)  # Resize the image using the provided size
-            photo = ImageTk.PhotoImage(image)
-            # Center the image on the canvas
-            self.create_image(self.image_size[0] // 2, self.image_size[1] // 2, image=photo, anchor=tk.CENTER)
-            self.photo = photo  # Keep a reference to prevent garbage collection
+            resized_image = image.resize((self.width, self.height), Image.LANCZOS)
+            photo = ImageTk.PhotoImage(resized_image)
+            self.create_image(20, 20, image=photo)  # Adjust coordinates to center image
+            self.photo = photo  # Keep a reference so it's not garbage collected
         else:
-            # If no image is provided, display placeholder text
-            self.create_text(self.image_size[0] // 2, self.image_size[1] // 2, text="No Image", font=("Helvetica", 10))
+            self.create_text(100, 100, text="No Image", font=("Helvetica", 10))
+
+# Usage example
+# Assuming you have a JSON file named 'users.json' with the structure provided
+# image_viewer_canvas = ImageViewerCanvas(master=root, json_file_path='users.json', username='username')
+# image_viewer_canvas.pack()
