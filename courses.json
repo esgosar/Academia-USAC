@@ -1,16 +1,9 @@
 {
-    "123": {
-        "nombre": "Mas",
-        "costo": "asd",
-        "horario": "asd",
-        "cupo": "asd",
-        "cat": "asd"
-    },
-    "otro": {
-        "nombre": "asd",
-        "costo": "as",
-        "horario": "a",
-        "cupo": "a",
-        "cat": "a"
+    "a": {
+        "nombre": "",
+        "costo": "",
+        "horario": "",
+        "cupo": "",
+        "cat": ""
     }
 }

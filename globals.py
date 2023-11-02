@@ -12,8 +12,6 @@ email = ''
 phone = ''
 user_type = ''
 
-import json
-
 def CreateUser(nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contrasena, email, phone, user_type):
     # Read existing data
     with open('users.json', 'r') as f:
@@ -40,28 +38,22 @@ def CreateUser(nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contr
     with open('users.json', 'w') as f:
         json.dump(users_dict, f, indent=4)
 
-
-# Update user status
-def UserStatus(user):
-    # Open the file to read
-    with open('users.json', 'r') as file:
-        # Load the JSON data
-        data = json.load(file)
-
-    # Iterate through the list of dictionaries
-    for item in data:
-        # Check if the dictionary has the key 'admin'
-        if user in item:
-            if not user:
-                item[user]['confirm'] = False
-            else:
-                item[user]['confirm'] = True
+def CreateCourse(codigo, nombre, costo, horario, cupo, cat):
+    with open('courses.json', 'r') as f:
+        try:
+            courses_dict = json.load(f)
+        except json.decoder.JSONDecodeError:  # Handles an empty or non-existent file
+            courses_dict = {}
             
+    # Add new user data
+    courses_dict[codigo] = {
+        "nombre": nombre,
+        "costo": costo,
+        "horario": horario,
+        "cupo": cupo,
+        "cat": cat
+    }
 
-    # Convert the updated data back to a JSON string
-    newData = json.dumps(data, indent=4)
-
-    # Open the file to write
-    with open('users.json', 'w') as file:
-        # Write the updated JSON data to the file
-        file.write(newData)
+    # Write the updated data back to the file
+    with open('courses.json', 'w') as f:
+        json.dump(courses_dict, f, indent=4)

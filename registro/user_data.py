@@ -88,6 +88,7 @@ class UserDataView(tk.Frame):
             elif isExplicityValidPassword(str(self.contrasena_entry.get())) == 5:
                 globals.contrasena = self.contrasena_entry.get()
                 globals.usuario = self.usuario_entry.get()
+                globals.avatar = self.image_canvas.get()
     
 
         from registro.contact_data import ContactDataView
