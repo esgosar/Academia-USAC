@@ -1,10 +1,21 @@
 import tkinter as tk
 import sys
 import os
+import json
 import globals
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from image_display import ImageViewerCanvas
 
+class CourseFrame(tk.Frame):
+    def __init__(self, master, course_data):
+        super().__init__(master)
+        self.config(borderwidth=1, relief="solid")  # Optional: Add a border to each course frame
+        
+        # Display course data
+        for i, (key, value) in enumerate(course_data.items()):
+            label = tk.Label(self, text=f"{key}: {value}")
+            label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
+    
 class AssignCoursesModal(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
@@ -56,16 +67,16 @@ class AssignCoursesModal(tk.Toplevel):
         horario = self.labels_and_entries["Horario"].get()
         cupo = self.labels_and_entries["Cupo"].get()
         cat = self.labels_and_entries["Catedrático"].get()
-
         # Call CreateCourse to store the values
         globals.CreateCourse(codigo, nombre, costo, horario, cupo, cat)
+        self.master.switch_view('AdminView')
         self.destroy()
 
 
 class AdminView(tk.Frame):
     def __init__(self, master, switch_view):
         super().__init__(master)
-        self.root = tk.Frame(self, bg="grey")
+        self.root = tk.Frame(self, bg="white")
         self.root.pack(expand=True, fill=tk.BOTH)
         self.switch_view = switch_view
 
@@ -90,10 +101,15 @@ class AdminView(tk.Frame):
         self.border_line = tk.Frame(self.root, height=1, bg='black')
         self.border_line.pack(fill=tk.X, side=tk.TOP)
 
-        # Body
-        self.message_label = tk.Label(self.root, text="Sin cursos creados", bg="grey", fg="white", font=("Helvetica", 24))
-        self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-        
+        # Call method to check courses and get the courses dictionary
+        courses_dict = self.check_courses_and_display_message()
+
+        # Conditionally display courses based on whether courses_dict is empty
+        if courses_dict:
+            self.display_courses(courses_dict)
+        else:
+            self.display_no_courses_message()
+
     def close_session(self):
         import sys
         import os
@@ -103,3 +119,25 @@ class AdminView(tk.Frame):
 
     def create_course(self, event):
         self.modal = AssignCoursesModal(self)
+    
+    def check_courses_and_display_message(self):
+        try:
+            with open('courses.json', 'r') as f:
+                courses_dict = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):  # Handles a non-existent or empty file
+            courses_dict = {}
+
+        return courses_dict  # Return the courses_dict
+
+    def display_courses(self, courses_dict):
+        self.body_frame = tk.Frame(self.root)
+        self.body_frame.pack(fill=tk.BOTH, expand=True)
+
+        for i, (course_code, course_data) in enumerate(courses_dict.items()):
+            course_frame = CourseFrame(self.body_frame, course_data)
+            row, col = divmod(i, 3)  # Arrange courses in a grid with 3 columns
+            course_frame.grid(row=row, column=col, padx=10, pady=10)
+
+    def display_no_courses_message(self):
+        self.message_label = tk.Label(self.root, text="Sin cursos creados", bg="white", fg="grey", font=("Helvetica", 24))
+        self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
