@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import Label, Entry, Button
 from session import iniciar_sesion  # Import the iniciar_sesion function
+from correo import vista_recuperacion 
 
 class MainView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -29,11 +30,11 @@ class MainView(tk.Frame):
         self.iniciar_sesion_button = Button(master, text="Iniciar Sesión", font=("Helvetica", 16), command=self.wrap_iniciar_sesion)
         self.iniciar_sesion_button.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.link = Label(master, text="Recuperar Contraseña o...", fg="white", font=("Helvetica", 16), cursor="hand2")
-        self.link.place(relx=0.5, rely=0.75, anchor='center')
-        self.link.bind("<Button-1>", self.vista_recuperacion)
+        self.link = Label(master, text="Olvidé mi contraseña", fg="sky blue", font=("Helvetica", 14), cursor="hand2")
+        self.link.place(relx=0.5, rely=0.9, anchor='center')
+        self.link.bind("<Button-1>", lambda event:vista_recuperacion())
 
-        self.abrir_registro = Button(self, text="Registrarse", command=self.abrir_registro)
+        self.abrir_registro = Button(self, text="Registrarse", font=("Helvetica",16),command=self.abrir_registro)
         self.abrir_registro.place(relx=0.5, rely=0.8, anchor='center')
 
         self.error_message = Label(master, font=("Helvetica", 12), fg="red")
@@ -59,9 +60,6 @@ class MainView(tk.Frame):
     
     def reset_incorrect_password_count(self):
         self.incorrect_password_count = 0  # Reset the incorrect password count
-
-    def vista_recuperacion(self, idn):
-        pass
 
     def abrir_registro(self):
         from registro.personal_data import PersonalDataView  # Conditional import
