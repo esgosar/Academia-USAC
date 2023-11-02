@@ -46,7 +46,7 @@ def vista_recuperacion():
         return (len(contraseña) >= 8 and
                 any(c.isupper() for c in contraseña) and
                 any(c.isdigit() for c in contraseña) and
-                any(c in "!@#$%^&*" for c in contraseña))
+                any(c in "!@#$%^&*." for c in contraseña))
     
     recuperacion = tk.Tk()
     recuperacion.title("Recuperación de Contraseña")
