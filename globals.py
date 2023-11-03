@@ -14,31 +14,44 @@ email = ''
 phone = ''
 user_type = ''
 
-def CreateUser(nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contrasena, email, phone, user_type):
-    # Read existing data
-    with open('users.json', 'r') as f:
+class User:
+    def __init__(self, filename='users.json'):
+        self.filename = filename  # Store filename as an instance variable
+
+    def create(self, nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contrasena, email, phone, user_type):
+        # Read existing data
+        with open(self.filename, 'r') as f:
+            try:
+                users_dict = json.load(f)
+            except json.decoder.JSONDecodeError:  # Handles an empty or non-existent file
+                users_dict = {}
+        
+        # Add new user data
+        users_dict[usuario] = {
+            "nombres": nombres,
+            "apellidos": apellidos,
+            "dpi": dpi,
+            "nacimiento": fecha_nacimiento,
+            "avatar": avatar,
+            "password": contrasena,
+            "email": email,
+            "phone": phone,
+            "tipo": user_type,
+            "confirm": False  # la cuenta se crea pero esta bloqueada por defecto
+        }
+
+    def check(self, usuario):
         try:
-            users_dict = json.load(f)
-        except json.decoder.JSONDecodeError:  # Handles an empty or non-existent file
-            users_dict = {}
-    
-    # Add new user data
-    users_dict[usuario] = {
-        "nombres": nombres,
-        "apellidos": apellidos,
-        "dpi": dpi,
-        "nacimiento": fecha_nacimiento,
-        "avatar": avatar,
-        "password": contrasena,
-        "email": email,
-        "phone": phone,
-        "tipo": user_type,
-        "confirm": False  # la cuenta se crea pero esta bloqueada por defecto
-    }
-    
-    # Write the updated data back to the file
-    with open('users.json', 'w') as f:
-        json.dump(users_dict, f, indent=4)
+            with open(self.filename, 'r') as f:
+                users_dict = json.load(f)
+        except (FileNotFoundError, json.decoder.JSONDecodeError):  # Handles a non-existent or empty file
+            return False  # Return False if the file doesn't exist or is empty
+
+        return usuario in users_dict  # Return True if usuario is found, False otherwise
+            
+        # Write the updated data back to the file
+        with open(self.filename, 'w') as f:
+            json.dump(users_dict, f, indent=4)
 
 class Course:
     def __init__(self, filename='courses.json'):

@@ -83,7 +83,7 @@ class ContactDataView(tk.Frame):
                 globals.phone = self.phone_entry.get()
 
   
-        globals.CreateUser(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, globals.contrasena, globals.email, globals.phone, "alumn")
+        globals.User().create(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, globals.contrasena, globals.email, globals.phone, "alumn")
         #Send(self.email_entry.get())
 
         from registro.success import SuccessView
