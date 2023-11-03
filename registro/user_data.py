@@ -101,7 +101,6 @@ class UserDataView(tk.Frame):
                 globals.contrasena = self.contrasena_entry.get()
                 globals.usuario = self.usuario_entry.get()
                 globals.avatar = self.image_canvas.get()
-    
 
         from registro.contact_data import ContactDataView
         self.switch_view('ContactDataView')

@@ -15,7 +15,7 @@ phone = ''
 user_type = ''
 
 class User:
-    def __init__(self, filename='users.json'):
+    def __init__(self, filename='./users.json'):
         self.filename = filename  # Store filename as an instance variable
 
     def create(self, nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contrasena, email, phone, user_type):

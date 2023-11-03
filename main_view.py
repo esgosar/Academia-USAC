@@ -6,7 +6,7 @@ from correo import vista_recuperacion
 import json
 import base64
 import globals
-from encryptor import Decrypt
+from cryptography.fernet import Fernet
 
 class MainView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -67,10 +67,10 @@ class MainView(tk.Frame):
         # Leer el archivo JSON que contiene la información de los usuarios
         with open('./users.json', 'r') as f:
             data = json.load(f)
-            #HERE SHOULD DECRYPT PASSWORD
+            decrypted = cipher_suite.decrypt(data[self.usuario_entry.get()]['password']).decode()
             if self.usuario_entry.get() in data:
                 isUser = True
-                if self.contrasena_entry.get() == data[self.usuario_entry.get()]['password']:
+                if self.contrasena_entry.get() == decrypted:
                     isPass = True
                     self.incorrect_password_count = 0  # Reset the incorrect password count on successful login
                 else:
@@ -92,11 +92,11 @@ class MainView(tk.Frame):
                     globals.user_session = user # Iniciar sesión con este usuario
                     
                     #Cambio de vista
-                    if data[user]['Tipo de usuario'] == "alumn":
+                    if data[self.usuario_entry.get()]['Tipo de usuario'] == "alumn":
                         return 1
-                    elif data[user]['Tipo de usuario'] == "cat":
+                    elif data[self.usuario_entry.get()]['Tipo de usuario'] == "cat":
                         return 2
-                    elif data[user]['Tipo de usuario'] == "admin":
+                    elif data[self.usuario_entry.get()]['Tipo de usuario'] == "admin":
                         return 3
         
     def abrir_registro(self):
