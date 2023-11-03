@@ -10,5 +10,29 @@
         "Tel\u00e9fono": "12341234",
         "Tipo": "alumn",
         "Confirmaci\u00f3n": true
+    },
+    "admin": {
+        "Nombres": "Marco",
+        "Apellidos": "Polo",
+        "DPI": "1234123412341",
+        "Nacimiento": "11/3/23",
+        "Avatar": null,
+        "Contrase\u00f1a": "Z0FBQUFBQmxSU21oTWhLNUlSRlV1UU1WdmtHR2lYUWh1NGhDWmx4cUZIVXlKUlNMOFo3U0JrSXd5OUVWWUhCdTh6Q3NjVTBRVnJ5UjFWSG5URVE4SkdvSFJKbU94TThva1E9PQ==",
+        "Correo": "marco.polo@gmail.com",
+        "Tel\u00e9fono": "12341234",
+        "Tipo": "admin",
+        "Confirmaci\u00f3n": true
+    },
+    "cat": {
+        "Nombres": "Marco",
+        "Apellidos": "Polo",
+        "DPI": "1234123412341",
+        "Nacimiento": "11/3/23",
+        "Avatar": null,
+        "Contrase\u00f1a": "Z0FBQUFBQmxSU21oTWhLNUlSRlV1UU1WdmtHR2lYUWh1NGhDWmx4cUZIVXlKUlNMOFo3U0JrSXd5OUVWWUhCdTh6Q3NjVTBRVnJ5UjFWSG5URVE4SkdvSFJKbU94TThva1E9PQ==",
+        "Correo": "marco.polo@gmail.com",
+        "Tel\u00e9fono": "12341234",
+        "Tipo": "cat",
+        "Confirmaci\u00f3n": true
     }
 }
