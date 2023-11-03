@@ -100,13 +100,34 @@ class AdminView(tk.Frame):
         self.header = tk.Frame(self.root, bg="white", height=60)
         self.header.pack(fill=tk.X, side=tk.TOP)
 
-        self.header_text = tk.Label(self.header, text="Crear Curso", bg="white", fg="black", font=("Helvetica", 16))
-        self.header_text.pack(side=tk.LEFT, padx=10)
+        # Create "Crear Curso" label
+        self.crear_curso_label = self.create_header_label("Crear Curso", self.create_course)
+        self.crear_curso_label.pack(side=tk.LEFT)
 
-        self.header_text.bind("<Button-1>", self.create_course)
-        self.header_text.bind("<Enter>", lambda e: self.header_text.config(cursor="hand2"))
-        self.header_text.bind("<Leave>", lambda e: self.header_text.config(cursor=""))
+        # Separator
+        self.separator1 = tk.Label(self.header, text=" | ", bg="white", fg="black")
+        self.separator1.pack(side=tk.LEFT)
 
+        # Create "Registrar de Profesor" label
+        self.profesor_label = self.create_header_label("Registrar de Profesor", self.registrar_profesor)
+        self.profesor_label.pack(side=tk.LEFT)
+
+        # Separator
+        self.separator2 = tk.Label(self.header, text=" | ", bg="white", fg="black")
+        self.separator2.pack(side=tk.LEFT)
+
+        # Create "Notas" label
+        self.notas_label = self.create_header_label("Notas", self.notas)
+        self.notas_label.pack(side=tk.LEFT)
+
+        # Separator
+        self.separator3 = tk.Label(self.header, text=" | ", bg="white", fg="black")
+        self.separator3.pack(side=tk.LEFT)
+
+        # Create "Usuarios bloqueados" label
+        self.bloqueados_label = self.create_header_label("Usuarios bloqueados", self.usuarios_bloqueados)
+        self.bloqueados_label.pack(side=tk.LEFT)
+        
         # Create a label for closing session
         self.close_session_label = tk.Label(self.header, text="Cerrar sesión", bg="white", fg="black", font=("Helvetica", 16), cursor="hand2")
         self.close_session_label.pack(side=tk.RIGHT, padx=10)
@@ -157,3 +178,22 @@ class AdminView(tk.Frame):
     def display_no_courses_message(self):
         self.message_label = tk.Label(self.root, text="Sin cursos creados", bg="white", fg="grey", font=("Helvetica", 24))
         self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+    def create_header_label(self, text, command):
+        label = tk.Label(self.header, text=text, bg="white", fg="black", font=("Helvetica", 16), cursor="hand2")
+        label.bind("<Button-1>", command)
+        label.bind("<Enter>", lambda e: label.config(cursor="hand2"))
+        label.bind("<Leave>", lambda e: label.config(cursor=""))
+        return label
+
+    def registrar_profesor(self, event):
+        print("Registrar de Profesor clicked")
+
+    def notas(self, event):
+        print("Notas clicked")
+
+    def usuarios_bloqueados(self, event):
+        print("Usuarios bloqueados clicked")
+
+    def create_course(self, event):
+        print("Crear Curso clicked")
