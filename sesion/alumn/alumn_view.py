@@ -85,7 +85,7 @@ class Header(tk.Frame):
         self.profile_section.bind("<Enter>", lambda e: self.profile_section.config(cursor="hand2"))
         self.profile_section.bind("<Leave>", lambda e: self.profile_section.config(cursor=""))
 
-        self.username = tk.Label(self.profile_section, text="Username", bg="white", fg="black", font=("Helvetica", 16))
+        self.username = tk.Label(self.profile_section, text=globals.user_session, bg="white", fg="black", font=("Helvetica", 16))
         self.username.pack(side=tk.LEFT)
         # Bind the same events to username label
         self.username.bind("<Button-1>", self.show_menu)

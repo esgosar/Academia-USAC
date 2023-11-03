@@ -52,6 +52,7 @@ class MainView(tk.Frame):
         # Leer el archivo JSON que contiene la información de los usuarios
         with open('./users.json', 'r') as f:
             data = json.load(f)
+        
             encrypted_bytes = base64.urlsafe_b64decode(data[self.usuario_entry.get()]['Contraseña'])
             decrypted = globals.cipher_suite.decrypt(encrypted_bytes).decode()
 

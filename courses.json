@@ -27,5 +27,14 @@
         "Cupo": 1,
         "Cat.": "Bryan Chesky",
         "Alumnos": []
+    },
+    "otro curso m\u00e1s": {
+        "C\u00f3digo": "otro curso m\u00e1s",
+        "Nombre": "ASd",
+        "Coste": 100,
+        "Horario": "12:00",
+        "Cupo": 120,
+        "Cat.": "Alberto",
+        "Alumnos": []
     }
 }

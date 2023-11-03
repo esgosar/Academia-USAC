@@ -1,10 +1,6 @@
 from globals import Course
 import tkinter as tk
-import sys
-import os
 import json
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from image_display import ImageViewerCanvas
 
 course = Course()
 
@@ -109,7 +105,7 @@ class AdminView(tk.Frame):
         self.separator1.pack(side=tk.LEFT)
 
         # Create "Registrar de Profesor" label
-        self.profesor_label = self.create_header_label("Registrar de Profesor", self.registrar_profesor)
+        self.profesor_label = self.create_header_label("Registro de Profesor", self.registrar_profesor)
         self.profesor_label.pack(side=tk.LEFT)
 
         # Separator
@@ -146,6 +142,13 @@ class AdminView(tk.Frame):
             self.display_courses(courses_dict)
         else:
             self.display_no_courses_message()
+        
+        # Add this block to create a new button at the bottom
+        self.bottom_frame = tk.Frame(self.root)  # Create a frame for the button
+        self.bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)  # Pack the frame at the bottom of the root frame
+
+        self.create_course_button = tk.Button(self.bottom_frame, text="Create Course Now", command=self.create_course_now)
+        self.create_course_button.pack(pady=10)  # Add some padding on the y-axis for better spacing
 
     def close_session(self):
         import sys
@@ -154,7 +157,7 @@ class AdminView(tk.Frame):
         from main_view import MainView  # Conditional import
         self.switch_view('MainView')
 
-    def create_course(self, event):
+    def create_course_now(self, event=None):
         self.modal = AssignCoursesModal(self)
     
     def check_courses_and_display_message(self):
@@ -187,13 +190,17 @@ class AdminView(tk.Frame):
         return label
 
     def registrar_profesor(self, event):
-        print("Registrar de Profesor clicked")
+        from sesion.admin.cat_body import CatBody  # Conditional import
+        self.switch_view('CatBody')
 
     def notas(self, event):
-        print("Notas clicked")
+        from sesion.admin.notes_body import NotesBody  # Conditional import
+        self.switch_view('NotesBody')
 
     def usuarios_bloqueados(self, event):
-        print("Usuarios bloqueados clicked")
+        from sesion.admin.blocked_body import BlockedBody  # Conditional import
+        self.switch_view('BlockedBody')
 
     def create_course(self, event):
-        print("Crear Curso clicked")
+        from sesion.admin.admin_view import AdminView  # Conditional import
+        self.switch_view('AdminView')

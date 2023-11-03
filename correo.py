@@ -8,18 +8,18 @@ from tkinter import messagebox
 import re
 import json
 
-def enviar_correo(email, contraseña_encriptada):
+def enviar_correo(email):
     try:
         load_dotenv()
 
-        contraseña_encriptada = ""
+        contraseña_encriptada = "Ejemplo"
 
         email_sender = "esgosarlavida@gmail.com"
         password = os.getenv("PASSWORD")  # Contraseña guardada en .env
-        email_receiver = "3651686290101@ingenieria.usac.edu.gt"
+        email_receiver = email
 
         subject = "Recuperación de contraseña"
-        body = f"El usuario que requiere modificación de contraseña es {email}. Su nueva contraseña es {contraseña_encriptada}"
+        body = f"Su contraseña es {contraseña_encriptada}"
 
         em = EmailMessage()
         em.set_content(body)
@@ -39,15 +39,7 @@ def enviar_correo(email, contraseña_encriptada):
     except smtplib.SMTPAuthenticationError as e:
         messagebox.showerror("Error", "Ocurrió un problema al enviar el correo")
 
-def vista_recuperacion():
-    
-    def validar_contraseña(contraseña):
-        # Función para validar la contraseña según tus criterios
-        return (len(contraseña) >= 8 and
-                any(c.isupper() for c in contraseña) and
-                any(c.isdigit() for c in contraseña) and
-                any(c in "!@#$%^&*." for c in contraseña))
-    
+def vista_recuperacion():    
     recuperacion = tk.Tk()
     recuperacion.title("Recuperación de Contraseña")
     recuperacion.geometry("500x350")
@@ -55,64 +47,34 @@ def vista_recuperacion():
     titulo = tk.Label(recuperacion, text="Recuperación de Contraseña", font=("Helvetica", 20, "bold"))
     titulo.pack(pady=20)
 
-    usuario_label = tk.Label(recuperacion, text="Ingrese su correo electrónico:", font=("Helvetica", 14))
+    usuario_label = tk.Label(recuperacion, text="Usuario:", font=("Helvetica", 14))
     usuario_label.pack()
 
-    correo_entry = tk.Entry(recuperacion, font=("Helvetica", 14))
-    correo_entry.pack()
-
-    new_contr_label = tk.Label(recuperacion, text="Nueva Contraseña:", font=("Helvetica", 14))
-    new_contr_label.pack()
-
-    new_contr_entry = tk.Entry(recuperacion, show="*", font=("Helvetica", 14))
-    new_contr_entry.pack()
-
-    confirmacion_contr_label = tk.Label(recuperacion, text="Confirmar Contraseña:", font=("Helvetica", 14))
-    confirmacion_contr_label.pack()
-
-    confirmacion_entry = tk.Entry(recuperacion, show="*", font=("Helvetica", 14))
-    confirmacion_entry.pack()
-
+    user_entry = tk.Entry(recuperacion, font=("Helvetica", 14))
+    user_entry.pack()
+    
     def enviar_nueva_contraseña():
-        email = correo_entry.get()
-        contrasena_nueva = new_contr_entry.get()
-        confirmacion = confirmacion_entry.get()
-
-        if not correo_valido(email):
-            messagebox.showerror("Error", "Correo electrónico inválido")
+        isUser = False
+        if user_entry.get() == '':
+            messagebox.showerror("Error", "Introduzca un correo")
             return
-
-        if contrasena_nueva != confirmacion:
-            messagebox.showerror("Error", "Las contraseñas no coinciden")
+        
+        # Si el usuario existe motrar mensaje. Revise su correo. y volver a la vista MainView
+        with open("./users.json", "r") as f:  # Leer el JSON
+            data = json.load(f)
+            if user_entry.get() in data:
+                isUser = True
+    
+        # Validar que el usuario esté registrdo y mostrar error de usuario no registrado
+        if not isUser:
+            messagebox.showinfo("Error", "Usuario no registrado")
             return
+        else:
+            enviar_correo(data[user_entry.get()]['Correo'])
+            # Si el usuario este validado enviar correo con la contraseña
 
-        if not validar_contraseña(contrasena_nueva):
-            messagebox.showerror("Error", "La contraseña no cumple con los requisitos (mínimo 8 caracteres, al menos 1 mayúscula, 1 número y 1 signo)")
-            return
 
-        try:
-            with open("users.json", "r") as archivo:  # Leer el JSON
-                datos = json.load(archivo)
-
-            usuario_encontrado = False 
-
-            for usuario in datos:
-                if usuario["email"] == email:
-                    usuario_encontrado = True
-                    break
-
-            if usuario_encontrado:
-                enviar_correo(email, contrasena_nueva)
-                messagebox.showinfo("Recuperar contraseña", "Se envió el correo al administrador")
-                recuperacion.destroy()  # Cerrar la ventana de recuperación
-            else:
-                messagebox.showerror("Error", "No se encontró el correo en la base de datos")
-        except FileNotFoundError:
-            messagebox.showerror("Error", "No se encontró el archivo de usuarios 'users.json'")
-        except Exception as e:
-            messagebox.showerror("Error", f"Ocurrió un error: {str(e)}")
-
-    enviar_button = tk.Button(recuperacion, text="Enviar Nueva Contraseña", font=("Helvetica", 14), command=enviar_nueva_contraseña)
+    enviar_button = tk.Button(recuperacion, text="Recuperar", font=("Helvetica", 14), command=enviar_nueva_contraseña)
     enviar_button.pack(pady=20)
 
     recuperacion.mainloop()

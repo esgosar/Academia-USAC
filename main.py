@@ -7,6 +7,10 @@ from registro.user_data import UserDataView
 from registro.contact_data import ContactDataView
 from registro.success import SuccessView
 from sesion.admin.admin_view import AdminView
+from sesion.admin.courses_body import CoursesBody
+from sesion.admin.cat_body import CatBody
+from sesion.admin.notes_body import NotesBody
+from sesion.admin.blocked_body import BlockedBody
 from sesion.alumn.alumn_view import AlumnView
 from sesion.alumn.assign_view import AssignView
 from sesion.cat.cat_view import CatView
@@ -23,6 +27,10 @@ class AppController(tk.Tk):
             'UserDataView': UserDataView,
             'ContactDataView': ContactDataView,
             'AdminView': AdminView,
+            'CoursesBody': CoursesBody,
+            'CatBody': CatBody,
+            'NotesBody': NotesBody,
+            'BlockedBody': BlockedBody,
             'AlumnView': AlumnView,
             'AssignView': AssignView,
             'CatView': CatView

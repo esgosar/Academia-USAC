@@ -4,6 +4,7 @@ from cryptography.fernet import Fernet
 
 user_session = ''
 cipher_suite = Fernet('jSboVvVD09GgSAZz82LssvuFjNt9OCe_BOYKc1isMYI=')
+
 nombres = ''
 apellidos = ''
 dpi = ''
