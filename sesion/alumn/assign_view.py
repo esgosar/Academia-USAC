@@ -67,6 +67,7 @@ class CourseFrame(tk.Frame):
         course.unassign(self.course_data['Código'], globals.user_session)
         from sesion.alumn.assign_view import AssignView  # Conditional import
         self.admin_view.switch_view('AssignView')
+
     def assign_course(self):
         course.assign(self.course_data['Código'], globals.user_session)
         from sesion.alumn.assign_view import AssignView  # Conditional import
@@ -148,6 +149,7 @@ class AssignView(tk.Frame):
         self.body_frame.pack(fill=tk.BOTH, expand=True)
 
         for i, (course_code, course_data) in enumerate(courses_dict.items()):
-            course_frame = CourseFrame(self.body_frame, self, course_code, course_data)  # Pass self as the second argument
-            row, col = divmod(i, 3)  # Arrange courses in a grid with 3 columns
-            course_frame.grid(row=row, column=col, padx=10, pady=10)
+            if not course.count(course_code) or globals.user_session in course_data['Alumnos']:
+                course_frame = CourseFrame(self.body_frame, self, course_code, course_data)  # Pass self as the second argument
+                row, col = divmod(i, 3)  # Arrange courses in a grid with 3 columns
+                course_frame.grid(row=row, column=col, padx=10, pady=10)

@@ -78,6 +78,11 @@ class Course:
 
         # Append item to the course's Items list
         courses_dict[codigo]['Alumnos'].append(item)
+        courses_dict[codigo]['Cupo'] = courses_dict[codigo]['Cupo'] - 1
+
+        # Ensure "Cupo" hasn't gone negative
+        if courses_dict[codigo]['Cupo'] < 0:
+            raise ValueError(f'Cupo value has gone negative for course with codigo: {codigo}')
 
         # Write the updated data back to the file
         with open(self.filename, 'w') as f:
@@ -99,6 +104,8 @@ class Course:
         except ValueError:
             raise ValueError(f'Item: {item} not found in course: {codigo}')
 
+        courses_dict[codigo]['Cupo'] = courses_dict[codigo]['Cupo'] + 1
+
         # Write the updated data back to the file
         with open(self.filename, 'w') as f:
             json.dump(courses_dict, f, indent=4)
@@ -114,8 +121,25 @@ class Course:
             raise ValueError(f'No course found with codigo: {codigo}')
 
         return item in courses_dict[codigo]['Alumnos']
-        # En caso de que el cupo de un curso se encuentre lleno deberá de mostrar un mensaje que su inscripción no ha sido posible
-    
+
+    def count(self, codigo):
+        with open(self.filename, 'r') as f:
+            try:
+                courses_dict = json.load(f)
+            except json.decoder.JSONDecodeError:
+                raise ValueError(f'No course found with codigo: {codigo}')
+        
+        if codigo not in courses_dict:
+            raise ValueError(f'No course found with codigo: {codigo}')
+
+        # Get the 'Cupo' value for the specified course
+        cupo = courses_dict[codigo]['Cupo']  # Assume 'Cupo' is a string that represents a number
+
+        # Check the count of items in the Alumnos list
+        item_count = len(courses_dict[codigo]['Alumnos'])
+
+        return item_count == cupo  # returns True if item_count is greater than or equal to cupo, otherwise False
+
     def delete(self, codigo):
         try:
             with open(self.filename, 'r') as file:

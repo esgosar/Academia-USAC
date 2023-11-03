@@ -22,6 +22,13 @@ class CourseFrame(tk.Frame):
             if key not in ['Código', 'Nombre', 'Alumnos']:  # skip
                 label = tk.Label(self, text=(f"{key}" + "\t" + f"{value}"))
                 label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
+        
+        # Create a new button
+        self.print_button = tk.Button(self, text="Ver curso", command=self.print_message)
+        self.print_button.grid(row=i+2, column=0, columnspan=2, padx=5, pady=5)  # Adjust the row value accordingly
+
+    def print_message(self):
+        print("Move a la vista del alumno")
 
 class CerrarSesionModal(tk.Toplevel):
     def __init__(self, master=None):
@@ -58,7 +65,7 @@ class Header(tk.Frame):
         self.switch_view = switch_view
         self.config(bg="white", height=60)
 
-        self.header_text = tk.Label(self, text="Asignar Cursos", bg="white", fg="black", font=("Helvetica", 16))
+        self.header_text = tk.Label(self, text="Gestión de Cursos", bg="white", fg="black", font=("Helvetica", 16))
         self.header_text.pack(side=tk.LEFT, padx=10)
 
         # Bind left-click event to header_text to trigger assign_courses method
