@@ -1,19 +1,20 @@
 import tkinter as tk
 import json
+from globals import Course
 
 class CourseFrame(tk.Frame):
     def __init__(self, master, course_code, course_data):
         super().__init__(master)
         self.config(borderwidth=1, relief="solid")
 
-        # Display course code and name in a larger font
-        name_label = tk.Label(self, text=f"{course_code} - {course_data['Nombre']}", font=("Helvetica", 18))
+        #Display course code and name in a larger font
+        name_label = tk.Label(self, text=f"{course_data['Código']} - {course_data['Nombre']}", font=("Helvetica", 18))
         name_label.grid(row=0, column=0, columnspan=2, sticky='w', padx=5, pady=5)
 
         # Display other course data
         for i, (key, value) in enumerate(course_data.items(), start=1):
-            if key != 'Nombre':  # skip the 'Nombre' key since it's already displayed
-                label = tk.Label(self, text=f"{value}")
+            if key not in ['Código', 'Nombre', 'Alumnos']:  # skip
+                label = tk.Label(self, text=(f"{key}" + "\t" + f"{value}"))
                 label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
 
         # Create Delete button

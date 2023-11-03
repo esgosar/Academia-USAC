@@ -33,18 +33,13 @@ class CerrarSesionModal(tk.Toplevel):
         self.master.close_session()
         self.destroy()
 
-class AlumnView(tk.Frame):
-    def __init__(self, master, switch_view):
-        super().__init__(master)
-        self.root = tk.Frame(self, bg="grey")
-        self.root.pack(expand=True, fill=tk.BOTH)
+class Header(tk.Frame):
+    def __init__(self, master, switch_view, **kwargs):
+        super().__init__(master, **kwargs)
         self.switch_view = switch_view
+        self.config(bg="white", height=60)
 
-        # Header
-        self.header = tk.Frame(self.root, bg="white", height=60)
-        self.header.pack(fill=tk.X, side=tk.TOP)
-
-        self.header_text = tk.Label(self.header, text="Asignar Cursos", bg="white", fg="black", font=("Helvetica", 16))
+        self.header_text = tk.Label(self, text="Asignar Cursos", bg="white", fg="black", font=("Helvetica", 16))
         self.header_text.pack(side=tk.LEFT, padx=10)
 
         # Bind left-click event to header_text to trigger assign_courses method
@@ -52,7 +47,7 @@ class AlumnView(tk.Frame):
         self.header_text.bind("<Enter>", lambda e: self.header_text.config(cursor="hand2"))
         self.header_text.bind("<Leave>", lambda e: self.header_text.config(cursor=""))
 
-        self.profile_section = tk.Frame(self.header, bg="white")
+        self.profile_section = tk.Frame(self, bg="white")
         self.profile_section.pack(side=tk.RIGHT, padx=10, pady=10)
 
         # Create a menu with a single option "Cerrar sesión"
@@ -74,14 +69,6 @@ class AlumnView(tk.Frame):
         # Bind the same events to image_viewer_canvas
         self.image_viewer_canvas.bind("<Button-1>", self.show_menu)
 
-        # Border line
-        self.border_line = tk.Frame(self.root, height=1, bg='black')
-        self.border_line.pack(fill=tk.X, side=tk.TOP)
-
-        # Body
-        self.message_label = tk.Label(self.root, text="Sin cursos asignados", bg="grey", fg="white", font=("Helvetica", 24))
-        self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-        
     def show_menu(self, event):
         self.modal = CerrarSesionModal(master=self)
         # Optionally, set focus to the modal to ensure it stays on top
@@ -97,3 +84,18 @@ class AlumnView(tk.Frame):
     def assign_courses(self, event=None):
         from sesion.alumn.assign_view import AssignView  # Conditional import
         self.switch_view('AssignView')
+
+class AlumnView(tk.Frame):
+    def __init__(self, master, switch_view):
+        super().__init__(master)
+        self.root = tk.Frame(self, bg="grey")
+        self.root.pack(expand=True, fill=tk.BOTH)
+        self.switch_view = switch_view
+
+        # Header
+        self.header = Header(self.root, self.switch_view, bg="white", height=60)
+        self.header.pack(fill=tk.X, side=tk.TOP)
+
+        # Body
+        self.message_label = tk.Label(self.root, text="Sin cursos asignados", bg="grey", fg="white", font=("Helvetica", 24))
+        self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)

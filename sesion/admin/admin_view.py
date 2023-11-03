@@ -2,19 +2,35 @@ import tkinter as tk
 import sys
 import os
 import json
-import globals
+from globals import Course
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from image_display import ImageViewerCanvas
 
+course = Course()
+
 class CourseFrame(tk.Frame):
-    def __init__(self, master, course_data):
+    def __init__(self, master, admin_view, course_code, course_data):
         super().__init__(master)
-        self.config(borderwidth=1, relief="solid")  # Optional: Add a border to each course frame
+        self.admin_view = admin_view
+        self.config(borderwidth=1, relief="solid")
         
-        # Display course data
-        for i, (key, value) in enumerate(course_data.items()):
-            label = tk.Label(self, text=f"{key}: {value}")
-            label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
+        # Display course code and name in a larger font
+        name_label = tk.Label(self, text=f"{course_data['Código']} - {course_data['Nombre']}", font=("Helvetica", 18))
+        name_label.grid(row=0, column=0, columnspan=2, sticky='w', padx=5, pady=5)
+
+        # Display other course data
+        for i, (key, value) in enumerate(course_data.items(), start=1):
+            if key not in ['Código', 'Nombre', 'Alumnos']:  # skip
+                label = tk.Label(self, text=(f"{key}" + "\t" + f"{value}"))
+                label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
+        
+        # Create Delete button
+        delete_button = tk.Button(self, text="Delete", command=lambda: self.delete_course(course_code))  # Assumes delete_course method exists
+        delete_button.grid(row=i+1, column=0, columnspan=2, padx=5, pady=5)
+
+    def delete_course(self, course_code):
+        course.delete(course_code)  # Call the function to delete the course from the JSON file
+        self.admin_view.switch_view('AdminView')  # Update the view
     
 class AssignCoursesModal(tk.Toplevel):
     def __init__(self, master=None):
@@ -68,7 +84,7 @@ class AssignCoursesModal(tk.Toplevel):
         cupo = self.labels_and_entries["Cupo"].get()
         cat = self.labels_and_entries["Catedrático"].get()
         # Call CreateCourse to store the values
-        globals.CreateCourse(codigo, nombre, costo, horario, cupo, cat)
+        course.create(codigo, nombre, costo, horario, cupo, cat)
         self.master.switch_view('AdminView')
         self.destroy()
 
@@ -134,10 +150,10 @@ class AdminView(tk.Frame):
         self.body_frame.pack(fill=tk.BOTH, expand=True)
 
         for i, (course_code, course_data) in enumerate(courses_dict.items()):
-            course_frame = CourseFrame(self.body_frame, course_data)
+            course_frame = CourseFrame(self.body_frame, self, course_code, course_data)
             row, col = divmod(i, 3)  # Arrange courses in a grid with 3 columns
             course_frame.grid(row=row, column=col, padx=10, pady=10)
-
+    
     def display_no_courses_message(self):
         self.message_label = tk.Label(self.root, text="Sin cursos creados", bg="white", fg="grey", font=("Helvetica", 24))
         self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
