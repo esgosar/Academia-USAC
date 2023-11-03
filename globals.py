@@ -28,16 +28,16 @@ class User:
         
         # Add new user data
         users_dict[usuario] = {
-            "nombres": nombres,
-            "apellidos": apellidos,
-            "dpi": dpi,
-            "nacimiento": fecha_nacimiento,
-            "avatar": avatar,
-            "password": contrasena,
-            "email": email,
-            "phone": phone,
-            "tipo": user_type,
-            "confirm": False  # la cuenta se crea pero esta bloqueada por defecto
+            "Nombres": nombres,
+            "Apellidos": apellidos,
+            "DPI": dpi,
+            "Fecha de Nacimiento": fecha_nacimiento,
+            "Avatar": avatar,
+            "Contraseña": contrasena,
+            "Correo Electrónico": email,
+            "Número de Teléfono": phone,
+            "Tipo de usuario": user_type,
+            "Confirmación": True  # la cuenta se crea pero esta bloqueada por defecto
         }
 
     def check(self, usuario):
@@ -49,6 +49,24 @@ class User:
 
         return usuario in users_dict  # Return True if usuario is found, False otherwise
             
+        # Write the updated data back to the file
+        with open(self.filename, 'w') as f:
+            json.dump(users_dict, f, indent=4)
+    
+    def block(self, usuario):
+        # Read existing data
+        with open(self.filename, 'r') as f:
+            try:
+                users_dict = json.load(f)
+            except json.decoder.JSONDecodeError:  # Handles an empty or non-existent file
+                raise ValueError(f'No user found with usuario: {usuario}')  # Raise an error if the file is empty or non-existent
+
+        if usuario not in users_dict:
+            raise ValueError(f'No user found with usuario: {usuario}')  # Raise an error if usuario is not found
+
+        # Update the confirm value to False
+        users_dict[usuario]['Confirmación'] = False
+
         # Write the updated data back to the file
         with open(self.filename, 'w') as f:
             json.dump(users_dict, f, indent=4)
