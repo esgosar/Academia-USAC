@@ -1,8 +1,9 @@
 #import os
 import json
+from cryptography.fernet import Fernet
 
 user_session = ''
-
+cipher_suite = Fernet('jSboVvVD09GgSAZz82LssvuFjNt9OCe_BOYKc1isMYI=')
 nombres = ''
 apellidos = ''
 dpi = ''
@@ -15,7 +16,7 @@ phone = ''
 user_type = ''
 
 class User:
-    def __init__(self, filename='./users.json'):
+    def __init__(self, filename='users.json'):
         self.filename = filename  # Store filename as an instance variable
 
     def create(self, nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contrasena, email, phone, user_type):
@@ -31,14 +32,18 @@ class User:
             "Nombres": nombres,
             "Apellidos": apellidos,
             "DPI": dpi,
-            "Fecha de Nacimiento": fecha_nacimiento,
+            "Nacimiento": fecha_nacimiento,
             "Avatar": avatar,
             "Contraseña": contrasena,
-            "Correo Electrónico": email,
-            "Número de Teléfono": phone,
-            "Tipo de usuario": user_type,
+            "Correo": email,
+            "Teléfono": phone,
+            "Tipo": user_type,
             "Confirmación": True  # la cuenta se crea pero esta bloqueada por defecto
         }
+
+        # Write the updated data back to the file
+        with open(self.filename, 'w') as f:
+            json.dump(users_dict, f, indent=4)
 
     def check(self, usuario):
         try:

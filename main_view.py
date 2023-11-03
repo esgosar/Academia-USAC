@@ -40,21 +40,6 @@ class MainView(tk.Frame):
 
         self.abrir_registro = Button(self, text="Registrarse", font=("Helvetica",16),command=self.abrir_registro)
         self.abrir_registro.place(relx=0.5, rely=0.8, anchor='center')
-        
-    def wrap_iniciar_sesion(self):
-        # Call the iniciar_sesion function once and store the result
-        login_result = self.iniciar_sesion(self.usuario_entry, self.contrasena_entry)
-
-        # Switch view based on the result of iniciar_sesion
-        if login_result == 3:
-            from sesion.admin.admin_view import AdminView  # Conditional import
-            self.switch_view('AdminView')
-        elif login_result == 1:
-            from sesion.alumn.alumn_view import AlumnView  # Conditional import
-            self.switch_view('AlumnView')
-        elif login_result == 2:
-            from sesion.cat.cat_view import CatView  # Conditional import
-            self.switch_view('CatView')
 
     def login(self):
         isUser = False
@@ -67,7 +52,10 @@ class MainView(tk.Frame):
         # Leer el archivo JSON que contiene la información de los usuarios
         with open('./users.json', 'r') as f:
             data = json.load(f)
-            decrypted = cipher_suite.decrypt(data[self.usuario_entry.get()]['password']).decode()
+            encrypted_bytes = base64.urlsafe_b64decode(data[self.usuario_entry.get()]['Contraseña'])
+            decrypted = globals.cipher_suite.decrypt(encrypted_bytes).decode()
+
+            #decrypted_str = decrypted.decode()
             if self.usuario_entry.get() in data:
                 isUser = True
                 if self.contrasena_entry.get() == decrypted:
@@ -89,15 +77,18 @@ class MainView(tk.Frame):
                 return
             else:
                 if data[self.usuario_entry.get()]['Confirmación'] == True:
-                    globals.user_session = user # Iniciar sesión con este usuario
-                    
+                    globals.user_session = self.usuario_entry.get() # Iniciar sesión con este usuario
+
                     #Cambio de vista
-                    if data[self.usuario_entry.get()]['Tipo de usuario'] == "alumn":
-                        return 1
-                    elif data[self.usuario_entry.get()]['Tipo de usuario'] == "cat":
-                        return 2
-                    elif data[self.usuario_entry.get()]['Tipo de usuario'] == "admin":
-                        return 3
+                    if data[self.usuario_entry.get()]['Tipo'] == "alumn":
+                        from sesion.alumn.alumn_view import AlumnView  # Conditional import
+                        self.switch_view('AlumnView')
+                    elif data[self.usuario_entry.get()]['Tipo'] == "cat":
+                        from sesion.cat.cat_view import CatView  # Conditional import
+                        self.switch_view('CatView')
+                    elif data[self.usuario_entry.get()]['Tipo'] == "admin":
+                        from sesion.admin.admin_view import AdminView  # Conditional import
+                        self.switch_view('AdminView')
         
     def abrir_registro(self):
         from registro.personal_data import PersonalDataView  # Conditional import

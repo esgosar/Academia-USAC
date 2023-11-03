@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import Label, Entry, Button, messagebox
 from cryptography.fernet import Fernet
-
-
-cipher_suite = Fernet('jSboVvVD09GgSAZz82LssvuFjNt9OCe_BOYKc1isMYI=')
+import base64
 
 import sys
 import os
@@ -70,7 +68,6 @@ class ContactDataView(tk.Frame):
         self.switch_view('MainView')
     
     def forward(self):
-        print("1")
         if self.email_entry.get() == 'Correo electrónico' or self.phone_entry.get() == 'Teléfono':
             messagebox.showerror("Error", "Todos los campos son obligatorios")
             return  # Return early to prevent further processing
@@ -86,14 +83,14 @@ class ContactDataView(tk.Frame):
                 return
             else:
                 globals.phone = self.phone_entry.get()
-            print("2")
-        
-        print("3")
-        encrypted = cipher_suite.encrypt(globals.contrasena.encode())
-        print("4")
-        globals.User().create(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, encrypted, globals.email, globals.phone, "alumn")
-        print("5")
-        from registro.success import SuccessView
-        print("6")
-        self.switch_view('SuccessView')
-        print("7")
+
+        encrypted = globals.cipher_suite.encrypt(globals.contrasena.encode())
+        base64_encrypted = base64.urlsafe_b64encode(encrypted).decode()
+
+        globals.User().create(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, base64_encrypted, globals.email, globals.phone, "alumn")
+        messagebox.showerror("Error", "Nuevo usuario registrado")
+        import sys
+        import os
+        sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+        from main_view import MainView  # Conditional import
+        self.switch_view('MainView')
