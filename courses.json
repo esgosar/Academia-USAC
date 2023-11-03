@@ -4,21 +4,28 @@
         "Nombre": "ETICA PROFESIONAL",
         "Coste": "100",
         "Horario": "12:00",
-        "Cupo": "120",
+        "Cupo": 119,
         "Cat.": "ROGELIO ALFREDO SALAZAR DE LEON",
-        "Alumnos": [
-            "user"
-        ]
+        "Alumnos": []
     },
     "1000": {
         "C\u00f3digo": "1000",
         "Nombre": "Profesional Etica",
         "Coste": "130",
         "Horario": "13:00",
-        "Cupo": "100",
+        "Cupo": 1,
         "Cat.": "Parloteando",
         "Alumnos": [
             "user"
         ]
+    },
+    "113": {
+        "C\u00f3digo": "113",
+        "Nombre": "Curos Curso Cruso",
+        "Coste": 120,
+        "Horario": "12:00",
+        "Cupo": 1,
+        "Cat.": "Bryan Chesky",
+        "Alumnos": []
     }
 }

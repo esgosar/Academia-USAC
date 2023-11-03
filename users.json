@@ -46,5 +46,17 @@
         "phone": "12341234",
         "tipo": "alumn",
         "confirm": true
+    },
+    "nuevo": {
+        "nombres": "As",
+        "apellidos": "Bsss",
+        "dpi": "1234567891011",
+        "nacimiento": "11/3/23",
+        "avatar": null,
+        "password": "Ejemplo1!",
+        "email": "esfas@gmail.com",
+        "phone": "13254234",
+        "tipo": "alumn",
+        "confirm": false
     }
 }

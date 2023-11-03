@@ -1,6 +1,6 @@
 # MAIN SHOULD BE INSIDE SESSION DIRECTORY
 import tkinter as tk
-from tkinter import Label, Entry, Button
+from tkinter import Label, Entry, Button, messagebox
 from session import iniciar_sesion  # Import the iniciar_sesion function
 from correo import vista_recuperacion 
 
