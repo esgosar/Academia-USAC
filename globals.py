@@ -38,22 +38,57 @@ def CreateUser(nombres, apellidos, dpi, fecha_nacimiento, avatar, usuario, contr
     with open('users.json', 'w') as f:
         json.dump(users_dict, f, indent=4)
 
-def CreateCourse(codigo, nombre, costo, horario, cupo, cat):
-    with open('courses.json', 'r') as f:
-        try:
-            courses_dict = json.load(f)
-        except json.decoder.JSONDecodeError:  # Handles an empty or non-existent file
-            courses_dict = {}
-            
-    # Add new user data
-    courses_dict[codigo] = {
-        "nombre": nombre,
-        "costo": costo,
-        "horario": horario,
-        "cupo": cupo,
-        "cat": cat
-    }
+class Course:
+    def __init__(self, filename='courses.json'):
+        self.filename = filename
 
-    # Write the updated data back to the file
-    with open('courses.json', 'w') as f:
-        json.dump(courses_dict, f, indent=4)
+    def create(self, codigo, nombre, coste, horario, cupo, cat):
+        with open(self.filename, 'r') as f:
+            try:
+                courses_dict = json.load(f)
+            except json.decoder.JSONDecodeError:  # Handles an empty or non-existent file
+                courses_dict = {}
+        
+        # Add new course data
+        courses_dict[codigo] = {
+            "Código": codigo,
+            "Nombre": nombre,
+            "Coste": coste,
+            "Horario": horario,
+            "Cupo": cupo,
+            "Cat.": cat,
+            "Alumnos": []  # Initialize an empty list for items
+        }
+
+        # Write the updated data back to the file
+        with open(self.filename, 'w') as f:
+            json.dump(courses_dict, f, indent=4)
+
+    def assign(self, codigo, item):
+        with open(self.filename, 'r') as f:
+            try:
+                courses_dict = json.load(f)
+            except json.decoder.JSONDecodeError:
+                raise ValueError(f'No course found with codigo: {codigo}')
+        
+        if codigo not in courses_dict:
+            raise ValueError(f'No course found with codigo: {codigo}')
+
+        # Append item to the course's Items list
+        courses_dict[codigo]['Items'].append(item)
+
+        # Write the updated data back to the file
+        with open(self.filename, 'w') as f:
+            json.dump(courses_dict, f, indent=4)
+    
+    def delete(self, codigo):
+        try:
+            with open(self.filename, 'r') as file:
+                courses_dict = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            courses_dict = {}
+
+        courses_dict.pop(codigo, None)
+
+        with open(self.filename, 'w') as file:
+            json.dump(courses_dict, file, indent=4)
