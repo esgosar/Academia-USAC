@@ -1,27 +1,46 @@
 import tkinter as tk
 import sys
 import os
+import json
+import globals
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from image_display import ImageViewerCanvas
+
+class CourseFrame(tk.Frame):
+    def __init__(self, master, admin_view, course_code, course_data):
+        super().__init__(master)
+        self.admin_view = admin_view  # Store the admin_view argument as an instance variable
+        self.config(borderwidth=1, relief="solid")
+        self.course_data = course_data  # Store course_data as an instance variable
+
+        #Display course code and name in a larger font
+        name_label = tk.Label(self, text=f"{course_data['Código']} - {course_data['Nombre']}", font=("Helvetica", 18))
+        name_label.grid(row=0, column=0, columnspan=2, sticky='w', padx=5, pady=5)
+
+        # Display other course data
+        for i, (key, value) in enumerate(course_data.items(), start=1):
+            if key not in ['Código', 'Nombre', 'Alumnos']:  # skip
+                label = tk.Label(self, text=(f"{key}" + "\t" + f"{value}"))
+                label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
 
 class CerrarSesionModal(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
         self.overrideredirect(True)  # Removes the title bar
-        
+
         # Adjust the dimensions as per your requirement
         width, height = 150, 20  # for example, 150x50
         screen_width, screen_height = self.winfo_screenwidth(), self.winfo_screenheight()
         x_offset, y_offset = screen_width - width + 40, height + 42
         self.geometry(f"{width}x{height}+{x_offset}+{y_offset}")
-        
+
         # Create a label for the "Cerrar sesión" option with red text and a white background
         self.cerrar_sesion_label = tk.Label(self, text="Cerrar sesión", fg='red')
         self.cerrar_sesion_label.pack()
-        
+
         # Bind the left mouse button click event to the on_cerrar_sesion method
         self.cerrar_sesion_label.bind("<Button-1>", lambda e: self.on_cerrar_sesion())
-        
+
         # Change the cursor to a hand cursor when it hovers over the label
         self.cerrar_sesion_label.bind("<Enter>", lambda e: self.cerrar_sesion_label.config(cursor="hand2"))
         self.cerrar_sesion_label.bind("<Leave>", lambda e: self.cerrar_sesion_label.config(cursor=""))
@@ -64,7 +83,7 @@ class Header(tk.Frame):
         # Bind the same events to username label
         self.username.bind("<Button-1>", self.show_menu)
         
-        self.image_viewer_canvas = ImageViewerCanvas(master=self.profile_section, username='user', width=40, height=40)
+        self.image_viewer_canvas = ImageViewerCanvas(master=self.profile_section, username=globals.user_session, width=40, height=40)
         self.image_viewer_canvas.pack(side=tk.RIGHT, padx=10)
         # Bind the same events to image_viewer_canvas
         self.image_viewer_canvas.bind("<Button-1>", self.show_menu)
@@ -97,5 +116,33 @@ class AlumnView(tk.Frame):
         self.header.pack(fill=tk.X, side=tk.TOP)
 
         # Body
-        self.message_label = tk.Label(self.root, text="Sin cursos asignados", bg="grey", fg="white", font=("Helvetica", 24))
+        self.message_label = tk.Label(self.root, text="Sin cursos asignados", bg="white", fg="black", font=("Helvetica", 24))
         self.message_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        # Call the method to display assigned courses
+        self.display_assigned_courses()
+
+    def display_assigned_courses(self):
+        try:
+            with open('courses.json', 'r') as file:
+                courses_dict = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            courses_dict = {}
+        
+        # Filter out the courses assigned to the current user
+        assigned_courses = {k: v for k, v in courses_dict.items() if globals.user_session in v['Alumnos']}
+        
+        # Remove the no courses message if there are assigned courses
+        if assigned_courses:
+            self.message_label.place_forget()
+
+            # Display assigned courses
+            self.course_frames = []  # List to hold the CourseFrame instances
+            self.body_frame = tk.Frame(self.root)  # Create a frame to hold the courses
+            self.body_frame.pack(fill=tk.BOTH, expand=True)
+
+            for i, (course_code, course_data) in enumerate(assigned_courses.items()):
+                course_frame = CourseFrame(self.body_frame, self, course_code, course_data)  # Assuming CourseFrame is defined to handle displaying a course
+                row, col = divmod(i, 3)  # Arrange courses in a grid with 3 columns
+                course_frame.grid(row=row, column=col, padx=10, pady=10)
+                self.course_frames.append(course_frame)  # Store the CourseFrame instance

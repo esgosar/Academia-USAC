@@ -1,9 +1,24 @@
 {
-    "a": {
-        "nombre": "",
-        "costo": "",
-        "horario": "",
-        "cupo": "",
-        "cat": ""
+    "0001": {
+        "C\u00f3digo": "0001",
+        "Nombre": "ETICA PROFESIONAL",
+        "Coste": "100",
+        "Horario": "12:00",
+        "Cupo": "120",
+        "Cat.": "ROGELIO ALFREDO SALAZAR DE LEON",
+        "Alumnos": [
+            "user"
+        ]
+    },
+    "1000": {
+        "C\u00f3digo": "1000",
+        "Nombre": "Profesional Etica",
+        "Coste": "130",
+        "Horario": "13:00",
+        "Cupo": "100",
+        "Cat.": "Parloteando",
+        "Alumnos": [
+            "user"
+        ]
     }
 }

@@ -1,8 +1,8 @@
+from globals import Course
 import tkinter as tk
 import sys
 import os
 import json
-from globals import Course
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from image_display import ImageViewerCanvas
 

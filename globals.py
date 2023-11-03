@@ -1,6 +1,8 @@
 #import os
 import json
 
+user_session = ''
+
 nombres = ''
 apellidos = ''
 dpi = ''
@@ -75,11 +77,23 @@ class Course:
             raise ValueError(f'No course found with codigo: {codigo}')
 
         # Append item to the course's Items list
-        courses_dict[codigo]['Items'].append(item)
+        courses_dict[codigo]['Alumnos'].append(item)
 
         # Write the updated data back to the file
         with open(self.filename, 'w') as f:
             json.dump(courses_dict, f, indent=4)
+    
+    def check(self, codigo, item):
+        with open(self.filename, 'r') as f:
+            try:
+                courses_dict = json.load(f)
+            except json.decoder.JSONDecodeError:
+                raise ValueError(f'No course found with codigo: {codigo}')
+
+        if codigo not in courses_dict:
+            raise ValueError(f'No course found with codigo: {codigo}')
+
+        return item in courses_dict[codigo]['Alumnos']
     
     def delete(self, codigo):
         try:

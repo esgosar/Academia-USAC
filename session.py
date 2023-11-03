@@ -1,5 +1,6 @@
 import json
 import base64
+import globals
 from encryptor import Decrypt
 
 def iniciar_sesion(usuario_entry, contrasena_entry, update_error_message, main_view_instance):
@@ -29,12 +30,13 @@ def iniciar_sesion(usuario_entry, contrasena_entry, update_error_message, main_v
                 update_error_message('')  # Clear the error message or hide it
 
                 if not isPass and main_view_instance.incorrect_password_count >= 3:
-                    UserStatus(user, False)
+                    #UserStatus(user, False)
                     update_error_message('Usuario bloqueado')
                 elif not isPass:
                     update_error_message('Contraseña incorrecta')
                 else:
                     if data[user]['confirm'] == True:
+                        globals.user_session = user
                         if data[user]['tipo'] == "alumn":
                             return 1
                         elif data[user]['tipo'] == "cat":
