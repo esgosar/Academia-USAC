@@ -83,6 +83,26 @@ class Course:
         with open(self.filename, 'w') as f:
             json.dump(courses_dict, f, indent=4)
     
+    def unassign(self, codigo, item):
+        with open(self.filename, 'r') as f:
+            try:
+                courses_dict = json.load(f)
+            except json.decoder.JSONDecodeError:
+                raise ValueError(f'No course found with codigo: {codigo}')
+
+        if codigo not in courses_dict:
+            raise ValueError(f'No course found with codigo: {codigo}')
+
+        # Remove item from the course's Alumnos list
+        try:
+            courses_dict[codigo]['Alumnos'].remove(item)
+        except ValueError:
+            raise ValueError(f'Item: {item} not found in course: {codigo}')
+
+        # Write the updated data back to the file
+        with open(self.filename, 'w') as f:
+            json.dump(courses_dict, f, indent=4)
+    
     def check(self, codigo, item):
         with open(self.filename, 'r') as f:
             try:
@@ -94,6 +114,7 @@ class Course:
             raise ValueError(f'No course found with codigo: {codigo}')
 
         return item in courses_dict[codigo]['Alumnos']
+        # En caso de que el cupo de un curso se encuentre lleno deberá de mostrar un mensaje que su inscripción no ha sido posible
     
     def delete(self, codigo):
         try:

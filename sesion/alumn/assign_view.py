@@ -55,14 +55,18 @@ class CourseFrame(tk.Frame):
                 label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
 
         if course.check(self.course_data['Código'], globals.user_session):
-            # If the user is already assigned, display a message
-            assigned_label = tk.Label(self, text="Asignado", fg='green')
-            assigned_label.grid(row=i+1, column=0, columnspan=2, padx=5, pady=5)
+            # Create Delete button
+            assign_button = tk.Button(self, text="Desasignar", command=self.unassign_course)
+            assign_button.grid(row=i+1, column=0, columnspan=2, padx=5, pady=5)  
         else:
             # Create Delete button
             assign_button = tk.Button(self, text="Asignar", command=self.assign_course)
             assign_button.grid(row=i+1, column=0, columnspan=2, padx=5, pady=5)
 
+    def unassign_course(self):
+        course.unassign(self.course_data['Código'], globals.user_session)
+        from sesion.alumn.assign_view import AssignView  # Conditional import
+        self.admin_view.switch_view('AssignView')
     def assign_course(self):
         course.assign(self.course_data['Código'], globals.user_session)
         from sesion.alumn.assign_view import AssignView  # Conditional import
