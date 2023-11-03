@@ -79,9 +79,9 @@ class AssignCoursesModal(tk.Toplevel):
         # Retrieve values from the Entry widgets
         codigo = self.labels_and_entries["Código"].get()
         nombre = self.labels_and_entries["Nombre"].get()
-        costo = self.labels_and_entries["Costo"].get()
+        costo = int(self.labels_and_entries["Costo"].get())
         horario = self.labels_and_entries["Horario"].get()
-        cupo = self.labels_and_entries["Cupo"].get()
+        cupo = int(self.labels_and_entries["Cupo"].get())
         cat = self.labels_and_entries["Catedrático"].get()
         # Call CreateCourse to store the values
         course.create(codigo, nombre, costo, horario, cupo, cat)
