@@ -8,7 +8,7 @@ from tkinter import messagebox
 import re
 import json
 
-def enviar_correo(email):
+def enviar_correo(email, message):
     try:
         load_dotenv()
 
@@ -18,8 +18,9 @@ def enviar_correo(email):
         password = os.getenv("PASSWORD")  # Contraseña guardada en .env
         email_receiver = email
 
-        subject = "Recuperación de contraseña"
-        body = f"Su contraseña es {contraseña_encriptada}"
+        if message == "Recuperar contraseña":
+            subject = message
+            body = f"Su contraseña es {contraseña_encriptada}"
 
         em = EmailMessage()
         em.set_content(body)
@@ -38,7 +39,7 @@ def enviar_correo(email):
 
     except smtplib.SMTPAuthenticationError as e:
         messagebox.showerror("Error", "Ocurrió un problema al enviar el correo")
-
+        
 def vista_recuperacion():    
     recuperacion = tk.Tk()
     recuperacion.title("Recuperación de Contraseña")
@@ -70,7 +71,7 @@ def vista_recuperacion():
             messagebox.showinfo("Error", "Usuario no registrado")
             return
         else:
-            enviar_correo(data[user_entry.get()]['Correo'])
+            enviar_correo(data[user_entry.get()]['Correo'], "Recuperar contraseña")
             # Si el usuario este validado enviar correo con la contraseña
 
 
@@ -78,8 +79,3 @@ def vista_recuperacion():
     enviar_button.pack(pady=20)
 
     recuperacion.mainloop()
-
-def correo_valido(email):
-    patron = r'^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$'
-    return re.match(patron, email) is not None
-

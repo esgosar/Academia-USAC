@@ -88,7 +88,8 @@ class ContactDataView(tk.Frame):
         base64_encrypted = base64.urlsafe_b64encode(encrypted).decode()
 
         globals.User().create(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, base64_encrypted, globals.email, globals.phone, "alumn")
-        messagebox.showerror("Error", "Nuevo usuario registrado")
+        messagebox.showerror("Error", "Nuevo usuario registrado\n\nRevise su confirmación de correo.")
+        # enviar correo
         import sys
         import os
         sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
