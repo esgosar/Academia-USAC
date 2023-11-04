@@ -1,9 +1,10 @@
+import os
 import yagmail
 
 # Create the yagmail client
 yag = yagmail.SMTP(
     user='3354094580901@ingenieria.usac.edu.gt', 
-    password='xihwoW-2kotmi-cihmib'
+    password=os.getenv("PASSWORD")
 )
 
 def notify_block(mail, name):
