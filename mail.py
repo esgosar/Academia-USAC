@@ -6,15 +6,12 @@ import yagmail
 
 # Create the yagmail client
 yag = yagmail.SMTP(
-    user='Academia USAC <3354094580901@ingenieria.usac.edu.gt>', 
+    user='3354094580901@ingenieria.usac.edu.gt', 
     password='xihwoW-2kotmi-cihmib'
 )
 
 def notify_block():
-    yag.send(
-        to=recive,
-        subject='Bloqueo de Cuenta',
-        contents=
+    contents = (
         '''
         Estimado usuario,
 
@@ -24,6 +21,11 @@ def notify_block():
         El equipo de Soporte
         '''
     )
-
+    yag.send(
+        to=recive,
+        subject='Bloqueo de Cuenta',
+        contents=contents,
+        headers={'From': 'Academia USAC <3354094580901@ingenieria.usac.edu.gt>'}
+    )
 
 notify_block()
