@@ -15,19 +15,29 @@ class RecuperarContraModal(tk.Toplevel):
         self.title("Recuperar Contraseña")
         self.geometry("600x300+%d+%d" % (self.winfo_screenwidth()/2 - 300, self.winfo_screenheight()/2 - 250))
         
+        # Configure the grid to expand and center the widgets
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(3, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+
         # Create a title label
         self.title_label = tk.Label(self, text="Recuperar Contraseña", font=("Helvetica", 24))
-        self.title_label.pack(pady=20)
+        self.title_label.grid(row=1, column=1, pady=20)
 
         # Label and entry for username
-        self.label = tk.Label(self, text= "Usuario")
+        self.label = tk.Label(self, text="Usuario")
         self.entry = tk.Entry(self)
-        self.label.pack(pady=5)
-        self.entry.pack(pady=5)
+        self.label.grid(row=2, column=1, pady=5, sticky=tk.W)
+        self.entry.grid(row=2, column=1, pady=5, sticky=tk.E)
 
-        # Submit button
-        self.submit_button = tk.Button(self, text="Submit", command=self.submit)
-        self.submit_button.pack(pady=20)
+        # Submit and Cancelar buttons
+        self.button_frame = tk.Frame(self)  # Frame to hold the buttons
+        self.button_frame.grid(row=3, column=1, pady=20)
+        self.submit_button = tk.Button(self.button_frame, text="Recuperar", command=self.submit)
+        self.submit_button.pack(side=tk.RIGHT, padx=5)
+        self.cancel_button = tk.Button(self.button_frame, text="Cancelar", command=self.destroy)
+        self.cancel_button.pack(side=tk.LEFT, padx=5)
 
         self.protocol("WM_DELETE_WINDOW", self.destroy)  # Handle the modal closure
 
@@ -127,7 +137,7 @@ class MainView(tk.Frame):
                 messagebox.showerror("Error", 'Usuario bloqueado\n\nPara desbloquear su usuario contacte con el administrador')
                 Mail().block(
                     data[self.usuario_entry.get()]['Correo'], 
-                    f"{data[self.usuario_entry.get()]['Nombres']} {data[self.usuario_entry.get()]['Apellidos']}", 
+                    f"{data[self.usuario_entry.get()]['Nombres']} {data[self.usuario_entry.get()]['Apellidos']}"
                 )
                 return
             elif not isPass:
