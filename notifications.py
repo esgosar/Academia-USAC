@@ -8,7 +8,7 @@ class Mail:
             password=os.getenv("PASSWORD")
         )
 
-    def block(mail, name):
+    def block(self, mail, name):
         contents = f'''
             <html>
                 <body>
@@ -23,14 +23,14 @@ class Mail:
             </html>
             '''
 
-        yag.send(
+        self.yag.send(
             to=mail,
             subject='Cuenta Bloqueada',
             contents=contents,
             headers={'From': 'Academia USAC <3354094580901@ingenieria.usac.edu.gt>'}
         )
 
-    def confirm(mail, name):
+    def confirm(self, mail, name):
         contents = f'''
             <html>
                 <body>
@@ -44,20 +44,20 @@ class Mail:
             </html>
             '''
 
-        yag.send(
+        self.yag.send(
             to=mail,
             subject='Cuenta Registrada',
             contents=contents,
             headers={'From': 'Academia USAC <3354094580901@ingenieria.usac.edu.gt>'}
         )
 
-    def recovery(mail, name, password):
+    def recovery(self, mail, name, password):
         contents = f'''
             <html>
                 <body>
                     <p>
                         {name},<br><br>
-                        ¡Hemos recibido una solicitud para restablecer su contraseña.<br>
+                        Hemos recibido una solicitud para restablecer su contraseña.<br>
                         Su contraseña es: {password}
                         Si no ha solicitado un restablecimiento de contraseña, ignore este correo electrónico.<br><br>
                         Atentamente,<br>
@@ -67,14 +67,14 @@ class Mail:
             </html>
             '''
 
-        yag.send(
+        self.yag.send(
             to=mail,
             subject='Recuperación de Contraseña',
             contents=contents,
             headers={'From': 'Academia USAC <3354094580901@ingenieria.usac.edu.gt>'}
         )
 
-    def assignation(mail, name, course):
+    def assignation(self, mail, name, course):
         contents = f'''
             <html>
                 <body>
@@ -89,14 +89,14 @@ class Mail:
             </html>
             '''
 
-        yag.send(
+        self.yag.send(
             to=mail,
             subject='Curso Asignado',
             contents=contents,
             headers={'From': 'Academia USAC <3354094580901@ingenieria.usac.edu.gt>'}
         )
 
-    def unassignation(mail, name, course):
+    def unassignation(self, mail, name, course):
         contents = f'''
             <html>
                 <body>
@@ -111,7 +111,7 @@ class Mail:
             </html>
             '''
 
-        yag.send(
+        self.yag.send(
             to=mail,
             subject='Curso Desasignado',
             contents=contents,

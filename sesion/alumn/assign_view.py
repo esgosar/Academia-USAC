@@ -5,6 +5,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from image_display import ImageViewerCanvas
+from notifications import Mail
 
 course = globals.Course()
 
@@ -65,11 +66,33 @@ class CourseFrame(tk.Frame):
 
     def unassign_course(self):
         course.unassign(self.course_data['Código'], globals.user_session)
+        with open('./users.json', 'r') as f:
+            data = json.load(f)
+
+            if data[globals.user_session]:
+                Mail().unassignation(
+                data[globals.user_session]['Correo'],
+                f"{data[globals.user_session]['Nombres']} {data[globals.user_session]['Apellidos']}",
+                self.course_data['Nombre']
+            )
+
         from sesion.alumn.assign_view import AssignView  # Conditional import
         self.admin_view.switch_view('AssignView')
+        
 
     def assign_course(self):
         course.assign(self.course_data['Código'], globals.user_session)
+        # Leer el archivo JSON que contiene la información de los usuarios
+        with open('./users.json', 'r') as f:
+            data = json.load(f)
+
+            if data[globals.user_session]:
+                Mail().assignation(
+                data[globals.user_session]['Correo'],
+                f"{data[globals.user_session]['Nombres']} {data[globals.user_session]['Apellidos']}",
+                self.course_data['Nombre']
+            )
+
         from sesion.alumn.assign_view import AssignView  # Conditional import
         self.admin_view.switch_view('AssignView')
         

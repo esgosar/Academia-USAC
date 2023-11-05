@@ -2,11 +2,61 @@
 import tkinter as tk
 from tkinter import Label, Entry, Button, messagebox
 from session import iniciar_sesion  # Import the iniciar_sesion function
-from correo import vista_recuperacion
 import json
 import base64
 import globals
 from cryptography.fernet import Fernet
+from notifications import Mail
+
+class RecuperarContraModal(tk.Toplevel):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.overrideredirect(True)
+        self.title("Recuperar Contraseña")
+        self.geometry("600x300+%d+%d" % (self.winfo_screenwidth()/2 - 300, self.winfo_screenheight()/2 - 250))
+        
+        # Create a title label
+        self.title_label = tk.Label(self, text="Recuperar Contraseña", font=("Helvetica", 24))
+        self.title_label.pack(pady=20)
+
+        # Label and entry for username
+        self.label = tk.Label(self, text= "Usuario")
+        self.entry = tk.Entry(self)
+        self.label.pack(pady=5)
+        self.entry.pack(pady=5)
+
+        # Submit button
+        self.submit_button = tk.Button(self, text="Submit", command=self.submit)
+        self.submit_button.pack(pady=20)
+
+        self.protocol("WM_DELETE_WINDOW", self.destroy)  # Handle the modal closure
+
+    def submit(self):
+        isUser = False
+        if self.entry.get() == '':
+            messagebox.showerror("Error", "Introduzca un usuario")
+            return
+        
+        # Si el usuario existe motrar mensaje. Revise su correo. y volver a la vista MainView
+        with open("./users.json", "r") as f:  # Leer el JSON
+            data = json.load(f)
+            if self.entry.get() in data:
+                isUser = True
+    
+        # Validar que el usuario esté registrdo y mostrar error de usuario no registrado
+        if not isUser:
+            messagebox.showinfo("Error", "Usuario no registrado")
+            return
+        else:
+            encrypted_bytes = base64.urlsafe_b64decode(data[self.entry.get()]['Contraseña'])
+            decrypted = globals.cipher_suite.decrypt(encrypted_bytes).decode()
+
+            Mail().recovery(
+                data[self.entry.get()]['Correo'], 
+                f"{data[self.entry.get()]['Nombres']} {data[self.entry.get()]['Apellidos']}", 
+                decrypted
+            )
+        self.destroy()
 
 class MainView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -36,11 +86,14 @@ class MainView(tk.Frame):
 
         self.link = Label(master, text="Olvidé mi contraseña", fg="sky blue", font=("Helvetica", 14), cursor="hand2")
         self.link.place(relx=0.5, rely=0.9, anchor='center')
-        self.link.bind("<Button-1>", lambda event:vista_recuperacion())
+        self.link.bind("<Button-1>", lambda event: self.abrir_modal())
 
         self.abrir_registro = Button(self, text="Registrarse", font=("Helvetica",16),command=self.abrir_registro)
         self.abrir_registro.place(relx=0.5, rely=0.8, anchor='center')
 
+    def abrir_modal(self):
+        self.modal = RecuperarContraModal(self)
+    
     def login(self):
         isUser = False
         isPass = False
@@ -72,6 +125,10 @@ class MainView(tk.Frame):
             if self.incorrect_password_count >= 3:
                 globals.User().block(self.usuario_entry.get())
                 messagebox.showerror("Error", 'Usuario bloqueado\n\nPara desbloquear su usuario contacte con el administrador')
+                Mail().block(
+                    data[self.usuario_entry.get()]['Correo'], 
+                    f"{data[self.usuario_entry.get()]['Nombres']} {data[self.usuario_entry.get()]['Apellidos']}", 
+                )
                 return
             elif not isPass:
                 messagebox.showerror("Error", 'Contraseña incorrecta')

@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import globals
 from check import isExplicityValidEmailAddress, isExplicitlyPhoneNumber
 from encryptor import Encrypt
-#from correo import Send
+from notifications import Mail
 
 class ContactDataView(tk.Frame):
     def __init__(self, master, switch_view):
@@ -89,7 +89,8 @@ class ContactDataView(tk.Frame):
 
         globals.User().create(globals.nombres, globals.apellidos, globals.dpi, globals.fecha_nacimiento, globals.avatar, globals.usuario, base64_encrypted, globals.email, globals.phone, "alumn")
         messagebox.showerror("Error", "Nuevo usuario registrado\n\nRevise su confirmación de correo.")
-        # enviar correo
+        # Call the methods
+        Mail().confirm(globals.email, f'{globals.nombres} {globals.apellidos}')
         import sys
         import os
         sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
